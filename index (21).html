@@ -1,0 +1,1035 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Atelier Gilles</title>
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#C8956E">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Atelier Gilles">
+<link rel="apple-touch-icon" href="/icon-192.png">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap');
+:root{--bg:#0f1117;--bg2:#161b26;--bg3:#1e2535;--bg4:#252d3d;--gold:#C8956E;--gold2:#e8b48a;--green:#4ade80;--red:#f87171;--blue:#60a5fa;--purple:#a78bfa;--text:#f1f5f9;--text2:#94a3b8;--text3:#64748b;--border:#2a3347;--border2:#334155;--r:12px;--r2:8px}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:Inter,sans-serif;font-size:14px;line-height:1.5;overflow-x:hidden}
+#app{display:flex;flex-direction:column;min-height:100vh;max-width:480px;margin:0 auto}
+#hdr{background:var(--bg2);border-bottom:1px solid var(--border);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:90}
+.hname{font-family:"Playfair Display",serif;font-size:17px;font-weight:700;color:var(--gold2)}
+.hsub{font-size:10px;color:var(--text3);margin-top:2px}
+.hright{display:flex;align-items:center;gap:6px}
+#kdot{width:7px;height:7px;border-radius:50%;background:var(--text3);flex-shrink:0}
+#kdot.ok{background:var(--green)}
+#kbtn{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r2);color:var(--text2);font-size:11px;padding:5px 10px;cursor:pointer}
+#kmodal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:200;align-items:flex-end;justify-content:center}
+#kmodal.open{display:flex}
+.ksheet{background:var(--bg2);border-radius:16px 16px 0 0;padding:20px;width:100%;max-width:480px;border-top:1px solid var(--border)}
+.ksheet h3{font-size:15px;font-weight:600;margin-bottom:12px}
+.ksheet input{width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r2);color:var(--text);padding:10px 12px;font-size:13px;outline:none;margin-bottom:8px}
+.ksheet input:focus{border-color:var(--gold)}
+.khint{font-size:10px;color:var(--text3);margin-bottom:12px}
+.krow{display:flex;gap:8px}
+.krow button{flex:1;padding:11px;border-radius:var(--r2);font-size:13px;font-weight:600;cursor:pointer;border:none;font-family:Inter,sans-serif}
+.kok{background:var(--gold);color:#fff}.kcancel{background:var(--bg3);color:var(--text2)}
+#main{flex:1;padding:16px 16px 80px}
+.sec{display:none}.sec.active{display:block}
+#nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:var(--bg2);border-top:1px solid var(--border);display:flex;padding-bottom:env(safe-area-inset-bottom);z-index:90}
+.nb{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:9px 2px 7px;background:none;border:none;color:var(--text3);cursor:pointer;font-size:8px;font-weight:500;font-family:Inter,sans-serif}
+.nb svg{width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.nb.on{color:var(--gold)}.nb.on svg{stroke:var(--gold)}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:14px;margin-bottom:12px}
+.chd{font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.6px;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between}
+.srow{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+.sbox{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:12px;text-align:center}
+.snum{font-family:"Playfair Display",serif;font-size:24px;font-weight:700;color:var(--gold2);line-height:1}
+.slab{font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-top:3px}
+.badge{display:inline-flex;align-items:center;padding:2px 7px;border-radius:20px;font-size:10px;font-weight:600}
+.bg{background:rgba(200,149,110,.15);color:var(--gold2)}.bb{background:rgba(96,165,250,.12);color:var(--blue)}
+.bv{background:rgba(74,222,128,.12);color:var(--green)}.bp{background:rgba(167,139,250,.12);color:var(--purple)}
+.br{background:rgba(248,113,113,.12);color:var(--red)}
+input,textarea,select{-webkit-appearance:none;width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r2);color:var(--text);padding:10px 12px;font-family:Inter,sans-serif;font-size:16px;outline:none;resize:vertical;line-height:1.5}
+input:focus,textarea:focus,select:focus{border-color:var(--gold)}
+select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%2394a3b8' fill='none' stroke-width='1.5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center}
+select option{background:#1e2535}
+.field{margin-bottom:11px}
+.lbl{display:block;font-size:11px;font-weight:600;color:var(--text2);margin-bottom:5px;text-transform:uppercase;letter-spacing:.4px}
+.btnp{background:var(--gold);border:none;border-radius:var(--r);color:#fff;padding:13px;cursor:pointer;font-size:14px;font-weight:600;width:100%;font-family:Inter,sans-serif;touch-action:manipulation}
+.btnp:disabled{opacity:.45;cursor:not-allowed}
+.btns{background:rgba(74,222,128,.15);border:1px solid rgba(74,222,128,.3);border-radius:var(--r);color:var(--green);padding:12px;cursor:pointer;font-size:13px;font-weight:600;width:100%;font-family:Inter,sans-serif}
+.btno{background:transparent;border:1px solid var(--border2);border-radius:var(--r);color:var(--text2);padding:11px;cursor:pointer;font-size:13px;width:100%;font-family:Inter,sans-serif}
+.btnsm{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r2);color:var(--text2);font-size:11px;font-weight:500;padding:5px 10px;cursor:pointer;white-space:nowrap;font-family:Inter,sans-serif}
+.btndsm{background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.3);border-radius:var(--r2);color:var(--red);font-size:11px;padding:4px 8px;cursor:pointer;font-family:Inter,sans-serif}
+.brow{display:flex;gap:8px;margin-top:10px}.brow>*{flex:1}
+.spin{display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,.2);border-top-color:#fff;border-radius:50%;animation:sp .6s linear infinite;vertical-align:-3px;margin-right:6px}
+@keyframes sp{to{transform:rotate(360deg)}}
+button,a.btn-touch{min-height:44px;touch-action:manipulation}
+input,textarea,select{min-height:44px;font-size:16px}
+
+#toast{position:fixed;bottom:76px;left:50%;transform:translateX(-50%);background:var(--bg3);border:1px solid var(--border2);color:var(--text);padding:9px 16px;border-radius:20px;font-size:12px;font-weight:500;z-index:300;opacity:0;transition:opacity .25s;pointer-events:none;white-space:nowrap}
+#toast.show{opacity:1}
+.ebox{background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.3);border-radius:var(--r);padding:10px 12px;font-size:12px;color:var(--red);margin-top:8px}
+.hint{font-size:11px;color:var(--text3);font-style:italic;margin-top:4px}
+.eg{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.estab{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:10px 6px;text-align:center;cursor:pointer}
+.estab.sel{border-color:var(--gold);background:rgba(200,149,110,.1)}
+.eico{font-size:20px}.enm{font-size:9px;font-weight:600;color:var(--text2);margin-top:3px;line-height:1.2;text-transform:uppercase}
+.pzone{border:1.5px dashed var(--border2);border-radius:var(--r);padding:18px;text-align:center;cursor:pointer}
+.thumbs{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px}
+.thumb{position:relative;width:60px;height:60px;border-radius:var(--r2);overflow:hidden;border:1px solid var(--border)}
+.thumb img{width:100%;height:100%;object-fit:cover}
+.thumb .rm{position:absolute;top:2px;right:2px;background:rgba(0,0,0,.7);border:none;color:#fff;width:16px;height:16px;border-radius:50%;cursor:pointer;font-size:9px;line-height:16px}
+.rb{margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid var(--border)}.rb:last-child{border-bottom:none}
+.rbhd{font-size:9px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px;display:flex;align-items:center;justify-content:space-between}
+.rbtxt{font-size:13px;line-height:1.65;white-space:pre-wrap}
+.hook{font-family:"Playfair Display",serif;font-size:17px;font-weight:600;color:var(--gold2);line-height:1.35}
+.cpbtn{background:var(--bg3);border:1px solid var(--border);border-radius:6px;color:var(--text3);font-size:9px;font-weight:600;padding:2px 7px;cursor:pointer}
+.tags{display:flex;flex-wrap:wrap;gap:5px}
+.tag{font-size:11px;background:rgba(200,149,110,.1);color:var(--gold2);padding:2px 9px;border-radius:20px;border:1px solid rgba(200,149,110,.2)}
+.spill{font-size:12px;background:var(--bg3);border-left:2px solid var(--gold);padding:7px 10px;border-radius:0 var(--r2) var(--r2) 0;margin-bottom:5px;color:var(--text2)}
+.cbox{background:rgba(74,222,128,.06);border:1px solid rgba(74,222,128,.2);border-radius:var(--r);padding:10px 12px;font-size:12px}
+.sbox2{background:rgba(96,165,250,.06);border:1px dashed rgba(96,165,250,.25);border-radius:var(--r);padding:10px 12px;font-size:12px}
+.vbts{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.vbt{background:var(--bg3);border:1px solid var(--border2);border-radius:20px;color:var(--text2);font-size:11px;font-weight:500;padding:5px 11px;cursor:pointer;font-family:Inter,sans-serif}
+.wstrip{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
+.wd{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);padding:5px 2px;min-height:70px}
+.wd.tod{border-color:var(--gold)}
+.wdhd{font-size:7px;font-weight:700;text-transform:uppercase;color:var(--text3);text-align:center;margin-bottom:2px}
+.wdnum{font-size:10px;font-weight:600;text-align:center;margin-bottom:3px;color:var(--text2)}
+.wd.tod .wdnum{color:var(--gold)}
+.wdp{font-size:7px;background:rgba(200,149,110,.15);border-radius:3px;padding:2px 3px;margin-bottom:2px;color:var(--gold2);line-height:1.2;word-break:break-word}
+.wdev{font-size:7px;background:rgba(248,113,113,.12);border-radius:3px;padding:2px 3px;margin-bottom:2px;color:var(--red);line-height:1.2}
+.wdok{font-size:7px;background:rgba(74,222,128,.12);border-radius:3px;padding:2px 3px;margin-bottom:2px;color:var(--green);line-height:1.2}
+.cgrid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
+.cdow{font-size:8px;font-weight:600;text-transform:uppercase;color:var(--text3);text-align:center;padding:3px 0}
+.cday{aspect-ratio:1;border:1px solid var(--border);border-radius:6px;font-size:11px;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:3px 2px;position:relative}
+.cday.empty{border:none;cursor:default}.cday.tod{background:rgba(200,149,110,.12);border-color:var(--gold);color:var(--gold)}
+.edot{position:absolute;bottom:2px;left:50%;transform:translateX(-50%);width:4px;height:4px;border-radius:50%}
+.ddtl{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:13px;margin-top:10px}
+.evitem{display:flex;align-items:flex-start;gap:10px;padding:9px 0;border-bottom:1px solid var(--border)}
+.evitem:last-child{border-bottom:none}
+.evdot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:4px}
+.evnm{font-size:13px;font-weight:500}.evdt{font-size:11px;color:var(--text3);margin-top:1px}
+.pwcard{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:12px;margin-bottom:8px}
+.pwcard.done{opacity:.6}
+.pwmeta{display:flex;gap:5px;flex-wrap:wrap;align-items:center;margin-bottom:7px}
+.pwday{font-size:12px;font-weight:600;color:var(--gold2)}
+.pwidea{font-size:12px;color:var(--text2);line-height:1.5;margin-bottom:8px}
+.pwbtns{display:grid;grid-template-columns:repeat(3,1fr);gap:5px}
+.pwbtns button{padding:7px 4px;border-radius:var(--r2);font-size:10px;font-weight:600;cursor:pointer;border:none;font-family:Inter,sans-serif}
+.pwv{background:rgba(74,222,128,.18);color:var(--green)}.pwr{background:rgba(96,165,250,.12);color:var(--blue)}.pwd{background:rgba(248,113,113,.1);color:var(--red)}
+.vi{display:flex;gap:10px;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--border)}.vi:last-child{border-bottom:none}
+.viico{width:32px;height:32px;border-radius:var(--r2);background:rgba(200,149,110,.12);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.vihook{font-size:12px;font-weight:500;margin-bottom:2px}.vimeta{font-size:10px;color:var(--text3)}
+.cvrow{display:flex;gap:7px;overflow-x:auto;padding:4px 0 8px}
+.cvrow canvas{flex-shrink:0;width:130px;height:auto;border-radius:var(--r);border:1px solid var(--border)}
+.rcard{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:12px;margin-bottom:8px}
+.s2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.rbar{height:6px;border-radius:3px;background:var(--bg3);overflow:hidden;display:flex;margin:5px 0 3px}
+.rv{background:var(--green)}.rp{background:var(--red)}
+.chatwrap{max-height:260px;overflow-y:auto;display:flex;flex-direction:column;gap:7px;margin-bottom:10px}
+.msg{max-width:88%;padding:8px 12px;border-radius:12px;font-size:12px;line-height:1.55;white-space:pre-wrap}
+.msg.u{align-self:flex-end;background:var(--gold);color:#fff;border-bottom-right-radius:3px}
+.msg.a{align-self:flex-start;background:var(--bg3);border:1px solid var(--border);border-bottom-left-radius:3px}
+.crow{display:flex;gap:7px}.crow input{flex:1}
+.ph{font-family:"Playfair Display",serif;font-size:20px;font-weight:700;color:var(--gold2);margin-bottom:4px}
+.ps{font-size:12px;color:var(--text3);margin-bottom:18px}
+
+/* ===== AUJOURD HUI ===== */
+.today-header{padding:16px 0 8px;display:flex;align-items:center;justify-content:space-between}
+.today-date{font-family:"Playfair Display",serif;font-size:22px;font-weight:700;color:var(--gold2)}
+.today-sub{font-size:11px;color:var(--text3);margin-top:2px}
+.today-counter{background:rgba(200,149,110,.12);border:1px solid rgba(200,149,110,.3);border-radius:20px;padding:5px 12px;font-size:12px;font-weight:700;color:var(--gold2)}
+
+.estab-card{border-radius:16px;overflow:hidden;margin-bottom:14px;border:1px solid var(--border)}
+.estab-card.open{border-color:rgba(200,149,110,.3)}
+.estab-card.closed{opacity:.45}
+.estab-card-top{padding:14px 16px 12px;display:flex;align-items:center;gap:12px}
+.estab-card-ico{font-size:28px;flex-shrink:0}
+.estab-card-name{font-size:15px;font-weight:700;color:var(--text)}
+.estab-card-hours{font-size:11px;color:var(--text3);margin-top:2px}
+.estab-card-badge{margin-left:auto;flex-shrink:0}
+.estab-card-status{font-size:10px;font-weight:700;padding:4px 10px;border-radius:20px}
+.status-open{background:rgba(74,222,128,.15);color:var(--green)}
+.status-closed{background:rgba(100,116,139,.15);color:var(--text3)}
+
+.visuel-strip{background:var(--bg3);border-top:1px solid var(--border);padding:11px 14px;display:flex;align-items:center;gap:10px}
+.visuel-ico{font-size:18px;flex-shrink:0}
+.visuel-info{flex:1;min-width:0}
+.visuel-title{font-size:12px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.visuel-fmt{font-size:10px;color:var(--text3);margin-top:1px}
+.visuel-change{background:transparent;border:none;color:var(--text3);font-size:10px;cursor:pointer;padding:4px 6px;border-radius:6px;font-family:Inter,sans-serif;white-space:nowrap;flex-shrink:0}
+.visuel-change:hover{color:var(--text2)}
+
+.gen-zone{padding:12px 14px;background:var(--bg2)}
+.gen-btn{width:100%;background:var(--gold);border:none;border-radius:10px;color:#fff;padding:14px;font-size:15px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;display:flex;align-items:center;justify-content:center;gap:8px;transition:opacity .15s}
+.gen-btn:disabled{opacity:.4;cursor:not-allowed}
+.gen-btn.done{background:rgba(74,222,128,.2);color:var(--green);border:1px solid rgba(74,222,128,.3)}
+.gen-result{padding:0 14px 14px;background:var(--bg2);display:none}
+.gen-result.show{display:block}
+.gen-hook{font-family:"Playfair Display",serif;font-size:16px;font-weight:600;color:var(--gold2);line-height:1.35;margin-bottom:8px}
+.gen-caption{font-size:12px;line-height:1.65;color:var(--text2);white-space:pre-wrap;margin-bottom:8px}
+.gen-tags{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:10px}
+.gen-tag{font-size:10px;background:rgba(200,149,110,.1);color:var(--gold2);padding:2px 8px;border-radius:20px;border:1px solid rgba(200,149,110,.2)}
+.gen-actions{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.gen-copy{background:var(--gold);border:none;border-radius:8px;color:#fff;font-size:12px;font-weight:700;padding:10px;cursor:pointer;font-family:Inter,sans-serif}
+.gen-regen{background:var(--bg3);border:1px solid var(--border2);border-radius:8px;color:var(--text2);font-size:12px;padding:10px;cursor:pointer;font-family:Inter,sans-serif}
+.gen-conseil{background:rgba(74,222,128,.06);border:1px solid rgba(74,222,128,.2);border-radius:8px;padding:8px 10px;font-size:11px;color:var(--green);margin-bottom:8px;line-height:1.45}
+
+.done-card{background:var(--bg2);border:1px solid rgba(74,222,128,.2);border-radius:var(--r);padding:12px 14px;margin-bottom:8px}
+.done-hd{font-size:11px;font-weight:600;color:var(--green);margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.done-item{display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid var(--border)}
+.done-item:last-child{border-bottom:none}
+.done-fmt{font-size:10px;font-weight:700;background:rgba(200,149,110,.12);color:var(--gold2);padding:2px 7px;border-radius:20px;flex-shrink:0}
+.done-hook{font-size:11px;color:var(--text2);flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+.fmt-rotate{display:flex;gap:6px;padding:10px 14px;background:var(--bg3);border-top:1px solid var(--border);overflow-x:auto}
+.fmt-pill{background:var(--bg4);border:1px solid var(--border2);border-radius:20px;color:var(--text3);font-size:10px;font-weight:600;padding:5px 11px;cursor:pointer;white-space:nowrap;font-family:Inter,sans-serif;flex-shrink:0}
+.fmt-pill.sel{background:rgba(200,149,110,.15);border-color:var(--gold);color:var(--gold2)}
+
+/* ===== BIBLIOTHEQUE ===== */
+.bib-card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:12px;margin-bottom:8px}
+.bib-hd{display:flex;align-items:flex-start;gap:10px}
+.bib-ico{font-size:20px;flex-shrink:0;margin-top:1px}
+.bib-title{font-size:13px;font-weight:600;color:var(--text);margin-bottom:3px}
+.bib-meta{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:6px}
+.bib-desc{font-size:11px;color:var(--text2);line-height:1.5}
+.bib-link{font-size:10px;color:var(--blue);word-break:break-all;margin-top:4px}
+.bib-btns{display:flex;gap:6px;margin-top:8px}
+
+/* PWA banner */
+#pwa-banner{display:none;position:fixed;bottom:70px;left:50%;transform:translateX(-50%);width:calc(100% - 32px);max-width:448px;background:var(--bg2);border:1px solid var(--gold);border-radius:var(--r);padding:12px 14px;z-index:150;box-shadow:0 4px 20px rgba(0,0,0,.5)}
+#pwa-banner.show{display:flex;align-items:center;gap:10px}
+.pwa-ico{font-size:24px;flex-shrink:0}.pwa-txt{flex:1}
+.pwa-ttl{font-size:13px;font-weight:600;color:var(--gold2)}.pwa-sub{font-size:11px;color:var(--text3);margin-top:1px}
+.pwa-btns{display:flex;gap:6px;flex-shrink:0}
+.pwa-ok{background:var(--gold);border:none;border-radius:var(--r2);color:#fff;font-size:11px;font-weight:600;padding:6px 10px;cursor:pointer;font-family:Inter,sans-serif}
+.pwa-no{background:transparent;border:none;color:var(--text3);font-size:11px;padding:6px 8px;cursor:pointer;font-family:Inter,sans-serif}
+</style>
+</head>
+<body>
+<div id="app">
+<div id="hdr">
+  <div><div class="hname">Gilles Pillault</div><div class="hsub">L'Atelier de contenu — Ornaisons</div></div>
+  <div class="hright">
+    <div style="font-size:9px;color:var(--text3);text-align:right;line-height:1.3">propulse par<br><span style="color:var(--gold2);font-weight:600">Digital Accademy</span></div>
+    <div id="kdot"></div><button id="kbtn" onclick="openK()">Cle API</button>
+  </div>
+</div>
+<div id="kmodal">
+  <div class="ksheet">
+    <h3>Connexion IA</h3>
+    <input type="password" id="kinp" placeholder="sk-ant-..." autocomplete="off">
+    <div class="khint">console.anthropic.com → API Keys. Reste uniquement sur ton appareil.</div>
+    <div class="krow"><button class="kcancel" onclick="closeK()">Annuler</button><button class="kok" onclick="saveK()">Connecter</button></div>
+  </div>
+</div>
+
+<div id="pwa-banner">
+  <div class="pwa-ico">📲</div>
+  <div class="pwa-txt"><div class="pwa-ttl">Installer l'app</div><div class="pwa-sub">Ajoute l'Atelier sur ton ecran d'accueil</div></div>
+  <div class="pwa-btns"><button class="pwa-ok" id="pwa-install-btn">Installer</button><button class="pwa-no" onclick="dismissPwa()">✕</button></div>
+</div>
+
+<div id="main">
+
+<!-- ===== AUJOURD HUI ===== -->
+<div class="sec active" id="sec-today">
+  <div id="today-header"></div>
+  <div id="today-estabs"></div>
+  <div id="today-done" style="margin-top:4px"></div>
+</div>
+
+<!-- ===== CREER ===== -->
+<div class="sec" id="sec-post">
+  <div class="ph">Creer un post</div><div class="ps">Photo + contexte, ton CM ecrit dans ta voix</div>
+  <div class="card"><div class="chd">Etablissement</div>
+    <div class="eg">
+      <div class="estab sel" data-e="resto" onclick="selE(this)"><div class="eico">🍽</div><div class="enm">Resto P'tite Cave</div></div>
+      <div class="estab" data-e="pizza" onclick="selE(this)"><div class="eico">🍕</div><div class="enm">Pizzeria</div></div>
+      <div class="estab" data-e="cave" onclick="selE(this)"><div class="eico">🍷</div><div class="enm">P'tite Cave</div></div>
+    </div>
+  </div>
+  <div class="card"><div class="chd">Photo</div>
+    <div class="pzone" onclick="document.getElementById('phinp').click()"><div style="font-size:26px">📷</div><div style="font-size:12px;color:var(--text3);margin-top:4px">Touche pour ajouter des photos</div></div>
+    <input type="file" id="phinp" accept="image/*" multiple style="display:none" onchange="addPhotos(event)">
+    <div class="thumbs" id="thumbs"></div>
+  </div>
+  <div class="card"><div class="chd">Contexte</div>
+    <div class="field"><label class="lbl">Format</label>
+      <select id="pf"><option value="Story">Story</option><option value="Post fixe">Post fixe</option><option value="Reel">Reel</option><option value="Carrousel">Carrousel</option></select></div>
+    <div class="field"><label class="lbl">Reseau</label>
+      <select id="pnet"><option value="Instagram">Instagram</option><option value="Facebook">Facebook</option><option value="Instagram + Facebook">Instagram + Facebook</option></select></div>
+    <div class="field"><label class="lbl">Objectif</label>
+      <select id="po">
+        <option value="mettre en avant un plat ou un produit">Mettre en avant un plat</option>
+        <option value="annoncer une nouveaute ou un evenement">Annoncer une nouveaute</option>
+        <option value="coulisses et histoire de la maison">Coulisses et histoire</option>
+        <option value="menu et promo du jour">Menu et promo du jour</option>
+        <option value="vin et accord mets-vin">Vin et accord</option>
+        <option value="ambiance et avis client">Ambiance et avis client</option>
+        <option value="recycler un contenu de la bibliotheque">Recycler un contenu</option>
+      </select></div>
+    <div class="field"><label class="lbl">Precisions <span style="color:var(--text3);font-weight:400;text-transform:none">(ou titre du visuel a recycler)</span></label>
+      <div style="display:flex;gap:6px">
+        <textarea id="pctx" rows="2" placeholder="Ex : pizza chevre-miel, ou : Reel four juin 2026..." style="flex:1"></textarea>
+        <button onclick="dictate('pctx')" id="mic-btn" style="background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r2);color:var(--text2);padding:0 10px;cursor:pointer;font-size:16px;flex-shrink:0" title="Dicter">🎤</button>
+      </div>
+    </div>
+  </div>
+  <button class="btnp" id="genbtn" onclick="genPost()">Genere mon post</button>
+  <div id="posterr"></div><div id="postres" style="margin-top:14px"></div>
+</div>
+
+<!-- ===== SEMAINE ===== -->
+<div class="sec" id="sec-semaine">
+  <div class="ph">Ma semaine</div><div class="ps">Plan 7 jours + evenements</div>
+  <div class="card"><div class="chd">Evenements a venir</div>
+    <div id="evlistfull"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px">
+      <div class="field"><label class="lbl">Date</label><input type="date" id="evdate"></div>
+      <div class="field"><label class="lbl">Type</label>
+        <select id="evcolor"><option value="red">Important</option><option value="gold">Promo</option><option value="green">Ouverture</option><option value="blue">Autre</option></select></div>
+    </div>
+    <div class="field"><label class="lbl">Description</label><input type="text" id="evdesc" placeholder="Ex : Soiree des Saveurs, fermeture..."></div>
+    <button class="btnsm" style="width:100%;padding:9px" onclick="addEv()">+ Ajouter un evenement</button>
+  </div>
+  <div class="card"><div class="chd">Posts gardes</div><div id="wsaved"><div class="hint">Valide un post dans Creer pour le voir ici.</div></div></div>
+  <button class="btnp" id="weekbtn" onclick="genWeek()">Genere ma semaine</button>
+  <button class="btno" style="margin-top:8px" onclick="closeWeek()">Cloturer et archiver</button>
+  <div id="weekerr"></div><div id="weekres" style="margin-top:12px"></div>
+</div>
+
+<!-- ===== REPONDRE ===== -->
+<div class="sec" id="sec-reply">
+  <div class="ph">Repondre</div><div class="ps">Avis, commentaire — reponse dans ta voix en 2 sec</div>
+  <div class="card">
+    <div class="field"><label class="lbl">Etablissement</label>
+      <select id="repest"><option value="resto">Resto de la P'tite Cave</option><option value="pizza">Pizzeria</option><option value="cave">La P'tite Cave</option></select></div>
+    <div class="field"><label class="lbl">Situation</label>
+      <select id="repsit">
+        <option value="remercier un avis positif">Avis positif</option>
+        <option value="repondre a un client mecontent, rester pro et apaisant">Client mecontent</option>
+        <option value="repondre a une question pratique">Question pratique</option>
+        <option value="reagir a un commentaire sympa">Commentaire sympa</option>
+      </select></div>
+    <div class="field"><label class="lbl">Le message</label><textarea id="reptxt" rows="4" placeholder="Colle ici l'avis ou le commentaire..."></textarea></div>
+    <button class="btnp" id="repbtn" onclick="genReply()">Propose des reponses</button>
+  </div>
+  <div id="reperr"></div><div id="repres"></div>
+</div>
+
+<!-- ===== ADN + BIBLIOTHEQUE ===== -->
+<div class="sec" id="sec-adn">
+  <div class="ph">ADN & Bibliotheque</div><div class="ps">Ta voix + tes contenus existants</div>
+
+  <!-- BIBLIOTHEQUE -->
+  <div class="card">
+    <div class="chd">Bibliotheque de contenus <span class="badge bg" id="bib-count">0</span></div>
+    <div id="bib-list"><div class="hint">Aucun contenu. Ajoutes-en ci-dessous.</div></div>
+    <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border)">
+      <div style="font-size:11px;font-weight:600;color:var(--text2);margin-bottom:8px;text-transform:uppercase;letter-spacing:.4px">Ajouter un contenu</div>
+      <div class="field"><label class="lbl">Titre du visuel</label><input type="text" id="bib-title" placeholder="Ex : Reel four pizza juin 2026"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+        <div class="field"><label class="lbl">Etablissement</label>
+          <select id="bib-estab"><option value="resto">Resto P'tite Cave</option><option value="pizza">Pizzeria</option><option value="cave">P'tite Cave</option></select></div>
+        <div class="field"><label class="lbl">Format</label>
+          <select id="bib-fmt"><option value="Reel">Reel</option><option value="Story">Story</option><option value="Photo">Photo</option><option value="Affiche">Affiche</option></select></div>
+      </div>
+      <div class="field"><label class="lbl">Description du visuel</label><textarea id="bib-desc" rows="2" placeholder="Ex : Vue du four en action, ambiance soir, fond sombre, musique italienne"></textarea></div>
+      <div class="field"><label class="lbl">Lien Drive / CapCut (optionnel)</label><input type="text" id="bib-link" placeholder="https://drive.google.com/..."></div>
+      <button class="btns" onclick="addBib()">+ Ajouter a la bibliotheque</button>
+    </div>
+  </div>
+
+  <!-- ADN -->
+  <div class="card"><div class="chd">Apprendre ma voix</div>
+    <div class="field"><label class="lbl">Colle 2-3 de tes vrais posts</label><textarea id="adnsmp" rows="4" placeholder="Des posts que tu as ecrits..."></textarea></div>
+    <button class="btnsm" id="learnbtn" style="width:100%;padding:9px" onclick="learnVoice()">Analyser et mettre a jour l'ADN</button>
+    <div id="learnerr"></div>
+  </div>
+  <div class="card"><div class="chd">La voix</div>
+    <div class="field"><label class="lbl">Qui tu es</label><textarea id="av" rows="3"></textarea></div>
+    <div class="field"><label class="lbl">Ton et tics de langage</label><textarea id="at" rows="3"></textarea></div>
+    <div class="field"><label class="lbl">Interdits</label><textarea id="ai" rows="2"></textarea></div>
+  </div>
+  <div class="card"><div class="chd">Les etablissements</div>
+    <div class="field"><label class="lbl">Resto de la P'tite Cave</label><textarea id="ar" rows="2"></textarea></div>
+    <div class="field"><label class="lbl">Pizzeria</label><textarea id="apz" rows="2"></textarea></div>
+    <div class="field"><label class="lbl">La P'tite Cave (Cave / Traiteur)</label><textarea id="ac" rows="2"></textarea></div>
+  </div>
+  <div class="card"><div class="chd">Stats Instagram</div>
+    <div class="s2">
+      <div class="field"><label class="lbl">Comptes touches</label><input type="number" id="sr" placeholder="2400"></div>
+      <div class="field"><label class="lbl">Partages DM</label><input type="number" id="ss" placeholder="35"></div>
+      <div class="field"><label class="lbl">Enregistrements</label><input type="number" id="ssv" placeholder="48"></div>
+      <div class="field"><label class="lbl">Commentaires</label><input type="number" id="sc" placeholder="22"></div>
+      <div class="field"><label class="lbl">Visites profil</label><input type="number" id="sv" placeholder="310"></div>
+      <div class="field"><label class="lbl">Abonnes gagnes</label><input type="number" id="sf" placeholder="12"></div>
+    </div>
+    <div class="field"><label class="lbl">Ce que tu as poste</label><textarea id="sctx" rows="2" placeholder="3 stories, 1 post fixe..."></textarea></div>
+    <button class="btnp" id="statsbtn" onclick="analyzeStats()">Analyser ma semaine</button>
+    <div id="statserr"></div><div id="statsres"></div>
+  </div>
+  <button class="btnp" onclick="saveAdn()" style="margin-top:4px">Enregistrer l'ADN</button>
+</div>
+
+<!-- ===== DASHBOARD ===== -->
+<div class="sec" id="sec-dash">
+  <div class="srow">
+    <div class="sbox"><div class="snum" id="stv">0</div><div class="slab">Valides</div></div>
+    <div class="sbox"><div class="snum" id="stw">-</div><div class="slab">Semaine</div></div>
+    <div class="sbox"><div class="snum" id="ste">0</div><div class="slab">Evenements</div></div>
+  </div>
+  <div class="card"><div class="chd">Posts valides</div><div id="vlist"><div class="hint">Aucun post valide.</div></div></div>
+  <div class="card"><div class="chd">Cette semaine <span style="display:flex;gap:4px"><button class="btnsm" onclick="stripMove(-1)">‹</button><span id="strip-label" style="font-size:10px;color:var(--text3);padding:4px 2px"></span><button class="btnsm" onclick="stripMove(1)">›</button></span></div><div class="wstrip" id="wstrip"></div></div>
+  <div class="card"><div class="chd">Evenements a venir <button class="btnsm" onclick="goTab('semaine')">Gerer</button></div><div id="upev"></div></div>
+  <div class="card"><div class="chd">Tendances <button class="btnsm" onclick="loadTrends()">Actualiser</button></div><div id="tlist"><div class="hint">Touche Actualiser pour charger les tendances.</div></div></div>
+  <div class="card">
+    <div class="chd"><span id="caltitle">Calendrier</span><span style="display:flex;gap:4px"><button class="btnsm" onclick="calMove(-1)">‹</button><button class="btnsm" onclick="calMove(1)">›</button></span></div>
+    <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:3px" id="caldows"></div>
+    <div class="cgrid" id="calgrid"></div>
+    <div id="daydtl"></div>
+  </div>
+</div>
+
+</div>
+
+<!-- NAV (6 onglets) -->
+<div id="nav">
+  <button class="nb on" id="nb-today" onclick="goTab('today')">
+    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>Aujourd'hui</button>
+  <button class="nb" id="nb-post" onclick="goTab('post')">
+    <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>Creer</button>
+  <button class="nb" id="nb-semaine" onclick="goTab('semaine')">
+    <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Semaine</button>
+  <button class="nb" id="nb-reply" onclick="goTab('reply')">
+    <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Repondre</button>
+  <button class="nb" id="nb-adn" onclick="goTab('adn')">
+    <svg viewBox="0 0 24 24"><path d="M4 6h16M4 10h16M4 14h10"/></svg>Biblio</button>
+  <button class="nb" id="nb-dash" onclick="goTab('dash')">
+    <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Stats</button>
+</div>
+</div>
+<div id="toast"></div>
+
+<script>
+// ===== DONNEES =====
+var adn={
+  v:"Gilles Pillault, epicurien et bon vivant. Ancien vigneron, anime Ornaisons avec trois etablissements. Credibilite terroir totale.",
+  t:"Tutoie tout le monde, franc-parler de comptoir, chaleureux et drole. Signature : C est que du bonheur. Sensoriel, jamais lisse.",
+  i:"Pas de langue de bois, pas de cliches, pas de ton froid, pas d emojis a la pelle.",
+  r:"Resto de la P tite Cave. Bistro genereux. FB + Instagram. Ouv mar-sam midi, mer+ven soir.",
+  pz:"Pizzeria. Instagram uniquement. Ouv jeu-dim soir 18h-22h.",
+  c:"La P tite Cave. Cave, traiteur, depot pain, vins/spiritueux. Instagram uniquement. Ouv mar-dim matin 8h-12h."
+};
+var EL={resto:"Resto de la P'tite Cave",pizza:"Pizzeria",cave:"La P'tite Cave"};
+var EL_ICO={resto:"🍽",pizza:"🍕",cave:"🍷"};
+var EL_NET={resto:"Instagram + Facebook",pizza:"Instagram",cave:"Instagram"};
+
+// Horaires ouverture : {dow:[0=lun..6=dim], sessions:[{label,heure}]}
+// dow : 0=lundi 1=mardi 2=mercredi 3=jeudi 4=vendredi 5=samedi 6=dimanche
+var SCHEDULE={
+  resto:[
+    {dow:[1,2,3,4,5],label:"Midi",heure:"12h00 – 14h00"},
+    {dow:[2,4],label:"Soir",heure:"19h00 – 22h00"}
+  ],
+  pizza:[
+    {dow:[3,4,5,6],label:"Soir",heure:"18h00 – 22h00"}
+  ],
+  cave:[
+    {dow:[1,2,3,4,5,6],label:"Matin",heure:"08h00 – 12h00"}
+  ]
+};
+
+// Posts fixes hebdo : 1 par etablissement par semaine (mercredi pour tous)
+var POST_FIXE_DOW={resto:2,pizza:4,cave:1}; // mer=2, jeu=3, mar=1
+
+var DAYS=["Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi","Dimanche"];
+var DOW=["L","M","M","J","V","S","D"];
+var MTHS=["Janvier","Fevrier","Mars","Avril","Mai","Juin","Juillet","Aout","Septembre","Octobre","Novembre","Decembre"];
+var MODEL="claude-sonnet-4-6";
+var _key="";
+function getKey(){return _key;}
+
+var curE="resto",photos=[],lastPost=null,lastReplies=[];
+var week=[],archive=[],evts=[],calDate=new Date(),selDay=null;
+var lastWP=[],chatH=[],validated=[],cBlobs=[],wpData=[];
+var biblio=[{"id": 1, "title": "Ouverture 18h — À emporter (panneau noir/or)", "estab": "pizza", "fmt": "Affiche", "desc": "Panneau élégant noir et or, style brasserie, avec logo pizza, horaires et numéro de téléphone. Ton premium.", "file": "medias/66AE58B8-A0E4-48BC-A8CD-10AF1ACF2967.jpeg"}, {"id": 2, "title": "Ouverture 18h — Pour vous régaler (pizza en boîte)", "estab": "pizza", "fmt": "Affiche", "desc": "Affiche italienne festive rouge/vert/blanc avec pizza généreuse en boîte, drapeau IT, numéro de téléphone.", "file": "medias/C94ECA00-CA04-4F73-B62D-6C296A8A58C4.png"}, {"id": 3, "title": "La Pizzeria ouvre dans 1 heure", "estab": "pizza", "fmt": "Affiche", "desc": "Affiche compte à rebours — pizza en boîte avec badge rouge 'Dans 1 heure pour vous régaler'. Urgence et appétit.", "file": "medias/E04FF206-7562-4D98-849B-28ACFD24DCE3.png"}, {"id": 4, "title": "Coulisses — la caisse et Gilles en action", "estab": "pizza", "fmt": "Photo", "desc": "Photo authentique du comptoir de la pizzeria : caisse enregistreuse, plan de travail, rouleau à pâtisserie, Gilles en arrière-plan avec son casque.", "file": "medias/IMG_6005.jpeg"}, {"id": 5, "title": "Pizza fromage, chorizo et olives noires", "estab": "pizza", "fmt": "Photo", "desc": "Pizza en boîte vue du dessus, pâte dorée généreuse, fromage fondu, tranches de chorizo et olives noires. Photo brute et appétissante.", "file": "medias/att.Vj0DyUuIrBjtd9oynozwLuawsPdkPJo6v8ztstLccSs"}, {"id": 6, "title": "Pizza végétarienne généreuse", "estab": "pizza", "fmt": "Photo", "desc": "Pizza en boîte débordante de légumes colorés : poivrons rouges et verts, champignons, brocoli, asperges, aubergines. Très photogénique.", "file": "medias/att.mwINfjzk7WEvPmqon-M4vgwNR9rZKFq0saELDTUiAxI"}, {"id": 7, "title": "Décor — miroir doré et lustre baroque", "estab": "pizza", "fmt": "Photo", "desc": "Photo d'ambiance de la pizzeria : grand miroir doré baroque, lustre en cristal, plantes vertes. Atmosphère chaleureuse et élégante.", "file": "medias/IMG_5611.jpeg"}, {"id": 8, "title": "Logo Pizzeria de la P'tite Cave", "estab": "pizza", "fmt": "Affiche", "desc": "Visuel logo officiel sur fond papier froissé noir — pizza dans cadre architectural doré, mention 'Authentique, Gourmande, Italienne'.", "file": "medias/Une_dose_d_humour_-_13.png"}, {"id": 9, "title": "Sélection vins — Viognier & Corbières avec étiquettes", "estab": "cave", "fmt": "Photo", "desc": "Comptoir cave : Domaine de Causse Viognier 8,50€ et Sainte Lucie d'Aussou Corbières 11,50€. Étiquettes manuscrites colorées, saucissons en fond.", "file": "medias/IMG_5706.jpeg"}, {"id": 10, "title": "Viognier & Corbières — portrait bouteilles", "estab": "cave", "fmt": "Photo", "desc": "Même sélection, cadrage serré. Domaine de Causse Origines Viognier et Sainte Lucie d'Aussou Patz e Amor. Fond cave avec charcuteries suspendues.", "file": "medias/IMG_5708.jpeg"}, {"id": 11, "title": "Gros plan — Sainte Lucie d'Aussou Patz e Amor", "estab": "cave", "fmt": "Photo", "desc": "Portrait serré Corbières Sainte Lucie d'Aussou avec étiquette manuscrite verte 'Fruité, rond, facile à boire 11,50€'. Fond cave avec saucissons.", "file": "medias/IMG_5709.jpeg"}, {"id": 12, "title": "Château Lastours — mise en scène radio vintage", "estab": "cave", "fmt": "Photo", "desc": "Radio vintage dorée sur caisse bois avec 3 bouteilles Château Lastours (Bergerie 2023, Grand Vin, Grande Réserve 2019). Ambiance collector unique.", "file": "medias/IMG_5744.jpeg"}, {"id": 13, "title": "Gin Castan Organic Spirit", "estab": "cave", "fmt": "Photo", "desc": "Deux boîtes Gin Castan Organic Spirit reflétées dans le comptoir vitré. Design botanique élégant bleu et blanc. Produit original et local.", "file": "medias/IMG_5746.jpeg"}, {"id": 14, "title": "Sélection rouge — étagère caisse bois", "estab": "cave", "fmt": "Photo", "desc": "Étagère bois : Line Laetitia Piccinini La Livinière, Sainte Lucie d'Aussou Corbières 2022, Insula La Clape 2023. Cadrage épuré et élégant.", "file": "medias/IMG_5749.jpeg"}, {"id": 17, "title": "Punch au Rhum BreiZ'ile — collection artisanale", "estab": "cave", "fmt": "Photo", "desc": "4 bouteilles Punch au Rhum BreiZ'ile Collection 32° alignées : Amande, Coco Vanille (Médaille de Bronze), Caramel Vanille, Rhum Vieux. Fabrication artisanale depuis 2002. Idéal été.", "file": "medias/IMG_5753.jpeg"}, {"id": 18, "title": "Révélation Fitou 2023 — trio bouteilles", "estab": "cave", "fmt": "Photo", "desc": "3 bouteilles Révélation Fitou 2023 en rang sur étagère cave. Étiquette sobre et élégante, mise en bouteille à la propriété. Prix visible 8€. Suggestion accord idéale.", "file": "medias/IMG_5751.jpeg"}, {"id": 19, "title": "Sélection rouge — étagère caisse bois (v2)", "estab": "cave", "fmt": "Photo", "desc": "Étagère caisse bois : Line Laetitia Piccinini, Sainte Lucie d'Aussou Patz e Amor Corbières 2022, Insula La Clape 2023. Lumière naturelle, rendu premium.", "file": "medias/IMG_5750.jpeg"}, {"id": 20, "title": "Ego in Terra — Celliers d'Orfée Médaille d'Or Paris 2023", "estab": "cave", "fmt": "Photo", "desc": "2 bouteilles Ego in Terra par Orfée, Médaille d'Or Paris 2023. Étiquette artistique saisissante : œil humain, éclaboussures d'or, paysage Corbières. Produit coup de cœur.", "file": "medias/IMG_5747.jpeg"}, {"id": 21, "title": "Gilles — promo Cantal Entredeux AOP (thumbs up)", "estab": "cave", "fmt": "Photo", "desc": "Gilles souriant, pouce levé, devant 2 meules de Cantal Entredeux AOP empilées + pancarte orange 'Promotion 15,90€/kg'. Rayonnages vins en fond. Photo humaine et engageante.", "file": "medias/IMG_5432.jpeg"}, {"id": 22, "title": "Gilles — 2 meules de Cantal ouvertes, sourire", "estab": "cave", "fmt": "Photo", "desc": "Gilles souriant tenant 2 grandes meules de Cantal éclatées à bout de bras, signe 'La P'tite Cave' visible au mur. Photo forte, conviviale, idéale pour engagement.", "file": "medias/IMG_5423.jpeg"}, {"id": 23, "title": "Gilles — Cantal face caméra, regard direct", "estab": "cave", "fmt": "Photo", "desc": "Gilles regard caméra intense, tient 2 meules de Cantal ouvertes devant lui. Vitrine fromagerie à gauche, étagères vins à droite. Photo portrait fort.", "file": "medias/IMG_5418.jpeg"}, {"id": 24, "title": "Cantal Entredeux AOP — vue boutique complète", "estab": "cave", "fmt": "Photo", "desc": "2 meules de Cantal empilées sur tabouret en bois au centre de la cave. Rayonnages vins, radio vintage, TV ancienne visible en fond. Ambiance boutique authentique.", "file": "medias/IMG_5414.jpeg"}, {"id": 25, "title": "Gilles — découpe d'une meule de Cantal", "estab": "cave", "fmt": "Photo", "desc": "Gilles en action, concentré, tenant une grande meule de Cantal qu'il vient de couper en deux. Coulisses authentiques, idéal pour contenu 'métier'.", "file": "medias/IMG_5419.jpeg"}, {"id": 26, "title": "Gilles — Cantal promo, TV vintage en fond", "estab": "cave", "fmt": "Photo", "desc": "Gilles avec Cantal AOP et pancarte promo orange, TV vintage allumée visible sur l'étagère du fond. Rayonnages vins bien fournis. Ambiance chaleureuse.", "file": "medias/IMG_5428.jpeg"}, {"id": 27, "title": "Poulet rôti — rôtissoire pleine le week-end", "estab": "cave", "fmt": "Photo", "desc": "Rôtissoire pleine de poulets dorés sur 5 rangées + pommes de terre confites en bas. Disponible UNIQUEMENT le samedi et dimanche matin à la cave/traiteur. Photo très appétissante.", "file": "medias/att.-CxF12y8e2fwlRvk0pdsbFUQ-mWUXrByc7UHiFZvT3A"}, {"id": 30, "title": "Réel ou storie début service", "estab": "pizza", "fmt": "Reel", "desc": "BROUILLON INSTAGRAM 'Réel ou storie début service' — vidéo ouverture du service pizzeria. Durée 6s.", "draft": "Réel ou storie début service"}, {"id": 31, "title": "Réel ou storie commande", "estab": "pizza", "fmt": "Reel", "desc": "BROUILLON INSTAGRAM 'Réel ou storie commande' — vidéo moment de la prise de commande. Durée 10s.", "draft": "Réel ou storie commande"}, {"id": 32, "title": "Storie ou réel prépa", "estab": "pizza", "fmt": "Reel", "desc": "BROUILLON INSTAGRAM 'Storie ou réel prépa' — vidéo préparation de la pizza. Durée 3s.", "draft": "Storie ou réel prépa"}, {"id": 33, "title": "Storie ou réel — client", "estab": "pizza", "fmt": "Reel", "desc": "BROUILLON INSTAGRAM 'Storie ou réel - client' — vidéo ambiance client. Durée 4s.", "draft": "Storie ou réel - client"}, {"id": 34, "title": "Storie ou réel pizza", "estab": "pizza", "fmt": "Reel", "desc": "BROUILLON INSTAGRAM 'Storie ou réel pizza' — gros plan pizza. Durée 4s.", "draft": "Storie ou réel pizza"}, {"id": 35, "title": "Storie ou réel Cuisine pizza", "estab": "pizza", "fmt": "Reel", "desc": "BROUILLON INSTAGRAM 'Storie ou réelCuisine pizza' — vidéo cuisine en action. Durée 9s.", "draft": "Storie ou réelCuisine pizza"}, {"id": 36, "title": "Storie ou réel — savoir-faire", "estab": "pizza", "fmt": "Reel", "desc": "BROUILLON INSTAGRAM 'Storie ou réel - savoir fair' — vidéo geste artisanal, étalement pâte. Durée 2s.", "draft": "Storie ou réel - savoir fair"}, {"id": 37, "title": "Réel ou storie poule humour", "estab": "pizza", "fmt": "Reel", "desc": "BROUILLON INSTAGRAM 'Réel ou storie poule humour' — vidéo humoristique avec poule. Durée 10s. Ton décalé.", "draft": "Réel ou storie poule humour"}, {"id": 38, "title": "Réel ou storie humour", "estab": "pizza", "fmt": "Reel", "desc": "BROUILLON INSTAGRAM 'Réel ou storie humour' — vidéo humour Gilles face caméra. Durée 11s.", "draft": "Réel ou storie humour"}, {"id": 39, "title": "Storie ouverture", "estab": "pizza", "fmt": "Story", "desc": "BROUILLON INSTAGRAM 'Storie ouverture' — vidéo ouverture pizzeria le soir. Durée 12s.", "draft": "Storie ouverture"}];
+
+function F(id){return document.getElementById(id);}
+function esc(s){return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+function san(s){return String(s||"").replace(/[\u2018\u2019\u201A-\u201F\u02BC]/g,"'").replace(/\u2013|\u2014/g,"-").replace(/\u2026/g,"...").replace(/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/g," ");}
+function cpTxt(t){
+  var txt=String(t||"");
+  // Methode 1: API Clipboard moderne
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(txt).then(function(){toast("Copie !");}).catch(function(){cpFallback(txt);});
+  }else{cpFallback(txt);}
+}
+function cpFallback(txt){
+  // Methode 2: textarea + execCommand (fonctionne sur iOS Safari)
+  var ta=document.createElement("textarea");
+  ta.value=txt;ta.style.position="fixed";ta.style.left="-9999px";ta.style.top="-9999px";
+  ta.setAttribute("readonly","");
+  document.body.appendChild(ta);
+  ta.focus();ta.select();
+  try{
+    var ok=document.execCommand("copy");
+    toast(ok?"Copie !":"Selectionne et copie manuellement");
+  }catch(e){toast("Appuie longuement pour copier");}
+  document.body.removeChild(ta);
+}
+function toast(msg){var el=F("toast");el.textContent=msg;el.classList.add("show");setTimeout(function(){el.classList.remove("show");},2200);}
+function isoD(d){return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
+function normD(s){s=(s||"").toLowerCase();return DAYS.find(function(d){return s.indexOf(d.toLowerCase())>=0;})||"";}
+
+// ===== PWA =====
+var deferredPrompt=null;
+window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();deferredPrompt=e;if(!localStorage.getItem('pwa-dismissed')){setTimeout(function(){F('pwa-banner').classList.add('show');},3000);}});
+F('pwa-install-btn').addEventListener('click',function(){F('pwa-banner').classList.remove('show');if(deferredPrompt){deferredPrompt.prompt();deferredPrompt.userChoice.then(function(r){if(r.outcome==='accepted'){toast('App installee !');}deferredPrompt=null;});}});
+function dismissPwa(){F('pwa-banner').classList.remove('show');localStorage.setItem('pwa-dismissed','1');}
+window.addEventListener('appinstalled',function(){toast('Atelier Gilles installe !');F('pwa-banner').classList.remove('show');});
+if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('/sw.js').catch(function(e){console.warn('SW:',e);});});}
+
+// ===== API =====
+function apiCall(body,cb,errcb){
+  var k=getKey();if(!k){errcb("Cle API manquante.");return;}
+  fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json","x-api-key":k,"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},body:san(JSON.stringify(body))})
+  .then(function(res){return res.json().then(function(d){if(res.status===401){errcb("Cle API invalide.");return;}if(res.status>=400){errcb((d&&d.error&&d.error.message)||("Erreur "+res.status));return;}cb(d);});})
+  .catch(function(e){errcb("Connexion impossible : "+String(e));});
+}
+function textOf(d){return(d&&d.content?d.content:[]).filter(function(b){return b.type==="text";}).map(function(b){return b.text;}).join("");}
+function callClaude(prompt,imgs,cb,errcb){
+  var content=[];(imgs||[]).forEach(function(img){content.push({type:"image",source:{type:"base64",media_type:img.media_type,data:img.b64}});});
+  content.push({type:"text",text:san(prompt)});
+  apiCall({model:MODEL,max_tokens:2200,messages:[{role:"user",content:content}]},function(d){var t=textOf(d);if(!t){errcb("Pas de reponse.");return;}cb(t);},errcb);
+}
+function parseJ(raw){
+  var s=raw.split("```json").join("").split("```").join("").trim();
+  var a=s.indexOf("{"),b=s.lastIndexOf("}");if(a>=0&&b>a)s=s.slice(a,b+1);
+  var tries=[function(){return JSON.parse(s);},function(){return JSON.parse(s.replace(/,(\s*[}\]])/g,"$1"));},function(){var o="",inS=false,es=false;for(var i=0;i<s.length;i++){var c=s[i],code=s.charCodeAt(i);if(es){o+=c;es=false;continue;}if(c==="\\"&&inS){o+=c;es=true;continue;}if(c==='"'){inS=!inS;o+=c;continue;}if(inS){if(code===0x2018||code===0x2019)o+="'";else if(code===0x201C||code===0x201D)o+='\\"';else if(code===0x2026)o+="...";else if(code===0x2013||code===0x2014)o+="-";else if(code<0x20&&c!=="\n"&&c!=="\r"&&c!=="\t")o+=" ";else o+=c;}else o+=c;}return JSON.parse(o);}];
+  for(var i=0;i<tries.length;i++){try{var r=tries[i]();if(r&&typeof r==="object")return r;}catch(e){}}throw new Error("JSON invalide");
+}
+
+// ===== PROMPTS =====
+function cmb(){
+  return "Tu es le CM IA de Gilles Pillault, epicurien et bon vivant qui tient trois etablissements a Ornaisons dans les Corbieres. "
+  +"Tu ecris TOUJOURS a la premiere personne, avec la gouaille de Gilles : chaleureux, direct, un peu poetique, beaucoup de bonne humeur. "
+  +"Ton but : donner envie de venir, de partager, de sourire. "
+  +"Regles 2026 inviolables : hook percutant 8-12 mots qui donne envie de lire la suite, "
+  +"1 seule intention par post, hashtags 3-5 maximum toujours locaux (Corbieres, Aude, Ornaisons), 1 seul CTA. "
+  +"La signature de Gilles : C est que du bonheur. A placer naturellement quand c est juste.";
+}
+function brl(){
+  return "VOIX DE GILLES (respecte absolument) : "
+  +adn.v+" | Ton : "+adn.t+" | Interdits absolus : "+adn.i+". "
+  +"Vocabulaire prefere : viens, on t attend, c est maison, du terroir vrai, les Corbieres dans le verre, "
+  +"on va se regaler, c est beau comme un matin de vendanges, le soleil a fait le boulot. "
+  +"Jamais de langue de bois. Toujours du concret. Une image qui sent bon.";
+}
+function jsch(){
+  return " REPONDS UNIQUEMENT en JSON valide sans texte avant ni apres. "
+  +"Cles obligatoires : intention (informer|faire reagir|convertir|creer du lien), "
+  +"type (valeur|promo|coulisses|engagement), "
+  +"hook (accroche 8-12 mots percutante, poetique si possible), "
+  +"caption (legende complete avec emojis mesures, sauts de ligne, naturelle et chaleureuse), "
+  +"slides (tableau 4-5 textes si carrousel sinon tableau vide), "
+  +"brief_visuel (ce qu il faut filmer ou photographier), "
+  +"raison_partage (pourquoi les gens vont partager ce post), "
+  +"cta (appel action court et direct), "
+  +"hashtags (tableau 3-5 hashtags locaux), "
+  +"bestTime (meilleur moment pour publier), "
+  +"conseil (conseil CM personnalise pour Gilles), "
+  +"variantes (tableau de 4 accroches alternatives differentes pour ce meme post). "
+  +"Hashtags 3-5 STRICT. Slides 4-5 max.";
+}
+function bibCtx(){
+  if(!biblio.length)return "";
+  return " BIBLIOTHEQUE DE CONTENUS EXISTANTS (utilise-les pour t inspirer ou les recycler) : "+biblio.map(function(b){return "["+b.fmt+"/"+EL[b.estab]+"] "+b.title+" — "+b.desc;}).join(" | ")+".";
+}
+
+// ===== AUJOURD HUI =====
+var todayPosted={}; // {estab_taskIdx: {hook,caption,hashtags,fmt}}
+var todayFmt={}; // format choisi par etablissement aujourd hui
+var FMT_ROTATION={resto:["Story","Story","Post fixe","Story","Story","Reel","Story"],pizza:["Story","Reel","Story","Post fixe"],cave:["Story","Post fixe","Story","Reel","Story","Story"]};
+var FMT_ICO2={Story:"📱",Reel:"🎬","Post fixe":"📌",Carrousel:"🖌"};
+
+function todayDow(){return (new Date().getDay()+6)%7;}
+function getOpenEstabs(){
+  var dow=todayDow();
+  return ["resto","pizza","cave"].filter(function(e){return SCHEDULE[e].some(function(s){return s.dow.indexOf(dow)>=0;});});
+}
+function getHours(estab){
+  var dow=todayDow();
+  return SCHEDULE[estab].filter(function(s){return s.dow.indexOf(dow)>=0;}).map(function(s){return s.label+" "+s.heure;}).join(" · ");
+}
+function getFmtToday(estab){
+  if(todayFmt[estab])return todayFmt[estab];
+  var dow=todayDow();var rot=FMT_ROTATION[estab]||["Story"];
+  // Post fixe prioritaire le jour dédié
+  if(POST_FIXE_DOW[estab]===dow)return "Post fixe";
+  return rot[dow%rot.length]||"Story";
+}
+function pickBibForEstab(estab,fmt){
+  var matches=biblio.filter(function(b){return b.estab===estab;});
+  if(!matches.length)return null;
+  // Prefere le meme format sinon premier dispo
+  var fmtMatch=matches.filter(function(b){return b.fmt===fmt||b.fmt==="Photo"||b.fmt==="Affiche";});
+  return fmtMatch.length?fmtMatch[Math.floor(Math.random()*fmtMatch.length)]:matches[0];
+}
+
+function renderToday(){
+  var dow=todayDow();
+  var d=new Date();
+  var dateStr=DAYS[dow]+" "+d.getDate()+" "+MTHS[d.getMonth()];
+  var open=getOpenEstabs();
+  var postedCount=Object.keys(todayPosted).length;
+  var totalTasks=open.length+(open.filter(function(e){return POST_FIXE_DOW[e]===dow;}).length>0?1:0);
+
+  // Header
+  var hdr=F("today-header");
+  var greet=d.getHours()<12?"Bonjour":d.getHours()<18?"Bon apres-midi":"Bonsoir";
+  var greetTxt=["Hep, c est que du bonheur !","La belle vie commence ici.","Le terroir te salue bien.","Allez, on va se regaler !","Les Corbieres ont la peche !"];
+  var greetSub=greetTxt[dow%greetTxt.length];
+  hdr.innerHTML='<div class="today-header">'
+    +'<div><div class="today-date">'+dateStr+'</div><div class="today-sub">'+greet+' Gilles — '+greetSub+'</div></div>'
+    +(open.length?'<div class="today-counter">'+postedCount+' / '+open.length+' postes</div>':'')+'</div>';
+
+  var wrap=F("today-estabs");
+  var h="";
+  if(!open.length){
+    h+='<div style="text-align:center;padding:20px 0 8px"><div style="font-size:36px">😴</div>'
+      +'<div style="font-family:\'Playfair Display\',serif;font-size:14px;font-weight:700;color:var(--gold2);margin-top:8px">Repos bien merite aujourd hui !</div>'
+      +'<div style="font-size:12px;color:var(--text3);margin-top:4px">Mais voici ce qui t attend bientot...</div></div>';
+  }
+  }
+
+  // Ouverts en premier, fermés ensuite
+  var orderedEstabs=["resto","pizza","cave"].sort(function(a,b){
+    var aOpen=open.indexOf(a)>=0?0:1;
+    var bOpen=open.indexOf(b)>=0?0:1;
+    return aOpen-bOpen;
+  });
+
+  var h="";
+  orderedEstabs.forEach(function(e){
+    var isOpen=open.indexOf(e)>=0;
+    var fmt=getFmtToday(e);
+    var bib=isOpen?pickBibForEstab(e,fmt):null;
+    var posted=todayPosted[e];
+    var isPostFixe=POST_FIXE_DOW[e]===dow;
+    var cardId="ec-"+e;
+
+    h+='<div class="estab-card '+(isOpen?"open":"closed")+'" id="'+cardId+'">';
+
+    // Top row
+    h+='<div class="estab-card-top" style="background:'+(isOpen?"var(--bg2)":"var(--bg3)")+'">';
+    h+='<div class="estab-card-ico">'+EL_ICO[e]+'</div>';
+    h+='<div style="flex:1"><div class="estab-card-name">'+esc(EL[e])+'</div>';
+    if(isOpen)h+='<div class="estab-card-hours">'+esc(getHours(e))+'</div>';
+    else h+='<div class="estab-card-hours" style="color:var(--text3)">Ferme aujourd hui — preparer un post</div>';
+    h+='</div>';
+    if(posted)h+='<div class="estab-card-status status-open">✓ Poste</div>';
+    else if(isOpen)h+='<div class="estab-card-status status-open">Ouvert</div>';
+    else h+='<div class="estab-card-status status-closed">Ferme</div>';
+    h+='</div>';
+
+    if(!isOpen){
+      // Fermé : bouton simple pour préparer un post à l'avance
+      h+='<div style="padding:10px 14px 14px">';
+      h+='<button class="gen-btn" style="opacity:.7;font-size:13px" onclick="launchTask(\''+ e +'\',\'Story\',\'prep\')">✎ Preparer un post a l avance</button>';
+      h+='</div>';
+      h+='</div>';
+      return;
+    }
+
+    // Format selector
+    h+='<div class="fmt-rotate" id="fmt-'+e+'">';
+    ["Story","Reel","Post fixe"].forEach(function(f){
+      h+='<button class="fmt-pill'+(fmt===f?" sel":"")+'" onclick="setFmt(\''+e+'\',\''+f+'\')">'
+        +FMT_ICO2[f]+' '+f+'</button>';
+    });
+    if(isPostFixe)h+='<span style="font-size:10px;color:var(--gold2);display:flex;align-items:center;padding:0 4px;white-space:nowrap">📌 Semaine</span>';
+    h+='</div>';
+
+    // Visuel depuis biblio
+    h+='<div class="visuel-strip" id="vis-'+e+'">';
+    if(bib){
+      h+='<div class="visuel-ico">'+(bib.fmt==="Reel"?"🎬":bib.fmt==="Story"?"📱":"📷")+'</div>';
+      h+='<div class="visuel-info"><div class="visuel-title">'+esc(bib.title)+'</div><div class="visuel-fmt">'+esc(bib.fmt)+' · '+esc(EL[e])+'</div></div>';
+      h+='<button class="visuel-change" onclick="cycleBib(\''+e+'\')">Changer ↺</button>';
+    }else{
+      h+='<div style="font-size:13px">📂</div>';
+      h+='<div class="visuel-info"><div class="visuel-title" style="color:var(--text3)">Aucun visuel en bibliotheque</div><div class="visuel-fmt">Ajoute des contenus dans Biblio</div></div>';
+      h+='<button class="visuel-change" onclick="goTab(\'adn\')">Ajouter →</button>';
+    }
+    h+='</div>';
+
+    // Bouton generer
+    h+='<div class="gen-zone">';
+    if(posted){
+      h+='<button class="gen-btn done" onclick="regenToday(\''+e+'\')">↺ Regénérer</button>';
+    }else{
+      h+='<button class="gen-btn" id="gbtn-'+e+'" onclick="genToday(\''+e+'\')">✦ Générer ce post</button>';
+    }
+    h+='</div>';
+
+    // Zone résultat (cachée par défaut)
+    h+='<div class="gen-result'+(posted?" show":"")+'" id="gres-'+e+'">';
+    if(posted){
+      h+='<div class="gen-hook">'+esc(posted.hook||"")+'</div>';
+      h+='<div class="gen-caption">'+esc(posted.caption||"")+'</div>';
+      if(posted.conseil)h+='<div class="gen-conseil">'+esc(posted.conseil)+'</div>';
+      if(posted.hashtags&&posted.hashtags.length)h+='<div class="gen-tags">'+posted.hashtags.map(function(t){return '<span class="gen-tag">'+esc(t)+'</span>';}).join("")+'</div>';
+      h+='<div class="gen-actions"><button class="gen-copy" onclick="copyToday(\''+e+'\')">📋 Copier tout</button><button class="gen-regen" onclick="regenToday(\''+e+'\')">↺ Autre version</button></div>';
+    }
+    h+='</div>';
+
+    h+='</div>';
+  });
+
+  // Jours suivants J+1 et J+2
+  h+=renderNextDays(dow);
+
+  wrap.innerHTML=h;
+  renderTodayDone();
+}
+
+function getDowLabel(dow){return DAYS[dow];}
+function getOpenForDow(dow){
+  return ["resto","pizza","cave"].filter(function(e){return SCHEDULE[e].some(function(s){return s.dow.indexOf(dow)>=0;});});
+}
+function getHoursForDow(estab,dow){
+  return SCHEDULE[estab].filter(function(s){return s.dow.indexOf(dow)>=0;}).map(function(s){return s.label+" "+s.heure;}).join(" · ");
+}
+
+function renderNextDays(todayDow){
+  var h='<div style="margin-top:16px">';
+  h+='<div style="font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border)">A venir cette semaine</div>';
+
+  [1,2].forEach(function(offset){
+    var nextDow=(todayDow+offset)%7;
+    var d=new Date();d.setDate(d.getDate()+offset);
+    var dateStr=DAYS[nextDow]+" "+d.getDate()+" "+MTHS[d.getMonth()];
+    var openEstabs=getOpenForDow(nextDow);
+
+    h+='<div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:12px 14px;margin-bottom:10px">';
+    h+='<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">';
+    h+='<div style="font-family:'Playfair Display',serif;font-size:14px;font-weight:700;color:var(--gold2)">'+esc(dateStr)+'</div>';
+    h+='<div style="font-size:10px;color:var(--text3)">'+openEstabs.length+' etablissement'+(openEstabs.length>1?"s":"")+'</div>';
+    h+='</div>';
+
+    if(!openEstabs.length){
+      h+='<div style="font-size:12px;color:var(--text3);font-style:italic">Repos — rien de programme</div>';
+    }else{
+      openEstabs.forEach(function(e){
+        var hrs=getHoursForDow(e,nextDow);
+        var fmt=FMT_ROTATION[e]?FMT_ROTATION[e][nextDow%FMT_ROTATION[e].length]:"Story";
+        if(POST_FIXE_DOW[e]===nextDow)fmt="Post fixe";
+        h+='<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)">';
+        h+='<div style="font-size:18px">'+EL_ICO[e]+'</div>';
+        h+='<div style="flex:1"><div style="font-size:12px;font-weight:600;color:var(--text)">'+esc(EL[e])+'</div>';
+        h+='<div style="font-size:10px;color:var(--text3)">'+esc(hrs)+'</div></div>';
+        h+='<span class="badge bg">'+esc(fmt)+'</span>';
+        h+='<button class="btnsm" onclick="launchTaskDow(''+e+'',''+fmt+'','+nextDow+')" style="font-size:10px">Preparer</button>';
+        h+='</div>';
+      });
+    }
+    h+='</div>';
+  });
+  h+='</div>';
+  return h;
+}
+
+function launchTaskDow(estab,fmt,dow){
+  selEK(estab);
+  F("pf").value=fmt==="Post fixe"?"Post fixe":fmt;
+  F("pnet").value=EL_NET[estab];
+  F("pctx").value="Post prevu pour "+DAYS[dow]+" — ";
+  goTab("post");
+  toast("Pre-rempli pour "+DAYS[dow]+" !");
+}
+
+var bibCycle={}; // index de rotation par etablissement
+function cycleBib(estab){
+  var fmt=getFmtToday(estab);
+  var matches=biblio.filter(function(b){return b.estab===estab;});
+  if(!matches.length)return;
+  bibCycle[estab]=(bibCycle[estab]||0)+1;
+  var bib=matches[bibCycle[estab]%matches.length];
+  var vis=F("vis-"+estab);if(!vis)return;
+  var fmtIco=bib.fmt==="Reel"?"🎬":bib.fmt==="Story"?"📱":"📷";
+  vis.innerHTML='<div class="visuel-ico">'+fmtIco+'</div>'
+    +'<div class="visuel-info"><div class="visuel-title">'+esc(bib.title)+'</div><div class="visuel-fmt">'+esc(bib.fmt)+' · '+esc(EL[estab])+'</div></div>'
+    +'<button class="visuel-change" onclick="cycleBib(\''+estab+'\')">Changer ↺</button>';
+}
+
+function setFmt(estab,fmt){
+  todayFmt[estab]=fmt;
+  // Met à jour les pills
+  var row=F("fmt-"+estab);if(!row)return;
+  row.querySelectorAll(".fmt-pill").forEach(function(p){p.classList.toggle("sel",p.textContent.indexOf(fmt)>=0);});
+  toast(fmt+" selectionne !");
+}
+
+function genToday(estab){
+  if(!getKey()){toast("Connecte ta cle API en haut !");return;}
+  var btn=F("gbtn-"+estab);var res=F("gres-"+estab);
+  if(btn)btn.disabled=true,btn.innerHTML='<span class="spin"></span>Generation...';
+
+  var fmt=getFmtToday(estab);
+  var net=EL_NET[estab];
+  // Cherche le visuel actif dans la biblio
+  var bibIdx=bibCycle[estab]||0;
+  var matches=biblio.filter(function(b){return b.estab===estab;});
+  var bib=matches.length?matches[bibIdx%matches.length]:null;
+  var bibNote=bib?" VISUEL : "+bib.title+" ("+bib.fmt+") — "+bib.desc+". Ecris une legende qui colle EXACTEMENT a ce visuel.":"";
+
+  // Variation auto : ne pas répéter le même angle
+  var prevHooks=Object.values(todayPosted).map(function(p){return p.hook||"";}).join(", ");
+  var varNote=prevHooks?" DEJA POSTE AUJOURD HUI : "+prevHooks+". Propose quelque chose de DIFFERENT en angle et en ton.":"";
+
+  var pr=cmb()+" "+brl()+" ETABLISSEMENT : "+EL[estab]+" ("+adn[estab]+")"
+    +". RESEAU : "+net+". FORMAT : "+fmt
+    +bibNote+varNote
+    +". REPONDS UNIQUEMENT en JSON valide. Cles : hook, caption, hashtags (tableau 3-5), conseil, cta.";
+
+  callClaude(pr,[],function(t){
+    try{
+      var r=parseJ(t);
+      r.fmt=fmt;
+      todayPosted[estab]=r;
+      renderTodayCard(estab,r);
+      renderTodayDone();
+      renderToday(); // refresh counter
+    }catch(e){if(btn)btn.disabled=false,btn.innerHTML="✦ Générer ce post";}
+  },function(e){toast("Erreur : "+String(e));if(btn)btn.disabled=false,btn.innerHTML="✦ Générer ce post";});
+}
+
+function regenToday(estab){
+  delete todayPosted[estab];
+  var res=F("gres-"+estab);if(res)res.classList.remove("show"),res.innerHTML="";
+  var gbtn=F("gbtn-"+estab);
+  var zone=gbtn?gbtn.parentNode:null;
+  if(zone)zone.innerHTML='<button class="gen-btn" id="gbtn-'+estab+'" onclick="genToday(\''+estab+'\')">✦ Générer ce post</button>';
+  genToday(estab);
+}
+
+function renderTodayCard(estab,r){
+  var res=F("gres-"+estab);if(!res)return;
+  var tags=Array.isArray(r.hashtags)?r.hashtags:[];
+  var h='<div class="gen-hook">'+esc(r.hook||"")+'</div>';
+  h+='<div class="gen-caption">'+esc(r.caption||"")+'</div>';
+  if(r.conseil)h+='<div class="gen-conseil">'+esc(r.conseil)+'</div>';
+  if(tags.length)h+='<div class="gen-tags">'+tags.map(function(t){return '<span class="gen-tag">'+esc(t)+'</span>';}).join("")+'</div>';
+  h+='<div class="gen-actions"><button class="gen-copy" onclick="copyToday(\''+estab+'\')">📋 Copier tout</button><button class="gen-regen" onclick="regenToday(\''+estab+'\')">↺ Autre version</button></div>';
+  // Bouton telecharger si fichier dispo
+  var bibIdx2=bibCycle[estab]||0;
+  var matches2=biblio.filter(function(b){return b.estab===estab;});
+  var bib2=matches2.length?matches2[bibIdx2%matches2.length]:null;
+  if(bib2&&bib2.file){
+    var dlHtml='<div style="margin-top:8px"><a href="/'+bib2.file+'" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;gap:6px;background:rgba(96,165,250,.12);border:1px solid rgba(96,165,250,.3);border-radius:8px;color:var(--blue);font-size:12px;font-weight:600;padding:10px;text-decoration:none">📥 Ouvrir le visuel (appui long pour enregistrer)</a></div>';
+    res.innerHTML+=dlHtml;
+  }
+}
+
+function copyToday(estab){
+  var r=todayPosted[estab];if(!r)return;
+  var tags=Array.isArray(r.hashtags)?r.hashtags.join(" "):"";
+  var txt=[r.hook||"",r.caption||"",r.cta||"",tags].filter(Boolean).join("\n\n");
+  cpTxt(txt);
+}
+
+function renderTodayDone(){
+  var el=F("today-done");if(!el)return;
+  var items=Object.entries(todayPosted);
+  if(!items.length){el.innerHTML="";return;}
+  var h='<div class="done-card"><div class="done-hd">✓ Deja genere aujourd hui</div>';
+  items.forEach(function(kv){
+    var e=kv[0],r=kv[1];
+    h+='<div class="done-item"><span class="done-fmt">'+esc(r.fmt||"Post")+'</span><span class="done-hook">'+esc(EL[e])+" — "+(r.hook||"")+'</span><button class="cpbtn" onclick="copyToday(\''+e+'\')">COPIER</button></div>';
+  });
+  h+='</div>';
+  el.innerHTML=h;
+}
+
+// ===== BIBLIOTHEQUE =====
+function addBib(){
+  var title=F("bib-title").value.trim();
+  var desc=F("bib-desc").value.trim();
+  if(!title){toast("Donne un titre au visuel");return;}
+  var item={id:Date.now(),title:title,estab:F("bib-estab").value,fmt:F("bib-fmt").value,desc:desc,link:F("bib-link").value.trim()};
+  biblio.push(item);
+  F("bib-title").value="";F("bib-desc").value="";F("bib-link").value="";
+  saveBiblio();renderBiblio();toast("Contenu ajoute !");
+}
+function delBib(id){biblio=biblio.filter(function(b){return b.id!==id;});saveBiblio();renderBiblio();}
+function useBib(id){
+  var b=biblio.find(function(x){return x.id===id;});if(!b)return;
+  selEK(b.estab);
+  F("pf").value=b.fmt==="Reel"?"Reel":b.fmt==="Story"?"Story":"Post fixe";
+  F("po").value="recycler un contenu de la bibliotheque";
+  F("pctx").value=b.title+(b.desc?" — "+b.desc:"");
+  goTab("post");toast("Visuel charge ! Genere ton post 🎯");
+}
+function renderBiblio(){
+  var el=F("bib-list");if(!el)return;
+  var cnt=F("bib-count");if(cnt)cnt.textContent=biblio.length;
+  if(!biblio.length){el.innerHTML='<div class="hint">Aucun contenu. Ajoutes-en ci-dessous.</div>';return;}
+  var FMT_ICO={Reel:"🎬",Story:"📱",Photo:"📷",Affiche:"🖼"};
+  var h="";
+  biblio.forEach(function(b){
+    var hasFile=b.file&&b.file.length>0;
+    var isDraft=b.draft&&b.draft.length>0;
+    var isImg=hasFile&&(b.file.match(/\.(jpg|jpeg|png|gif|webp)$/i));
+    h+='<div class="bib-card">';
+    // Miniature si image
+    if(isImg){
+      h+='<div style="width:100%;height:120px;border-radius:var(--r2);overflow:hidden;margin-bottom:8px;background:var(--bg)">';
+      h+='<img src="/'+esc(b.file)+'" style="width:100%;height:100%;object-fit:cover" onerror="this.parentNode.style.display=\'none\'">';
+      h+='</div>';
+    }
+    h+='<div class="bib-hd"><div class="bib-ico">'+(FMT_ICO[b.fmt]||"📄")+'</div>';
+    h+='<div style="flex:1"><div class="bib-title">'+esc(b.title)+'</div>';
+    h+='<div class="bib-meta"><span class="badge bg">'+esc(b.fmt)+'</span><span class="badge bb">'+esc(EL[b.estab]||b.estab)+'</span>';
+    if(isDraft)h+='<span class="badge bp">Brouillon Insta</span>';
+    h+='</div>';
+    h+='<div class="bib-desc">'+esc(b.desc||"")+'</div>';
+    if(b.link)h+='<div class="bib-link"><a href="'+esc(b.link)+'" target="_blank" style="color:var(--blue)">Voir le fichier ↗</a></div>';
+    h+='</div></div>';
+    h+='<div class="bib-btns">';
+    h+='<button class="btns" style="padding:7px;font-size:11px" onclick="useBib('+b.id+')">✦ Generer legende</button>';
+    if(hasFile){
+      h+='<a href="/'+esc(b.file)+'" target="_blank" rel="noopener" style="flex:1;display:flex;align-items:center;justify-content:center;background:rgba(96,165,250,.12);border:1px solid rgba(96,165,250,.3);border-radius:var(--r);color:var(--blue);font-size:11px;font-weight:600;padding:7px;text-decoration:none">📥 Ouvrir</a>';
+    }
+    if(b.id>9999)h+='<button class="btndsm" style="flex:0" onclick="delBib('+b.id+')">✕</button>';
+    h+='</div>';
+    h+='</div>';
+  });
+  el.innerHTML=h;
+}
+// ===== PERSISTANCE localStorage =====
+var STORE='gilles_atelier_v2';
+function saveState(){
+  try{localStorage.setItem(STORE,JSON.stringify({
+    key:_key,adn:adn,week:week,archive:archive,
+    evts:evts,validated:validated,wpData:wpData,biblio:biblio
+  }));}catch(e){}
+}
+function loadState(){
+  try{
+    var o=JSON.parse(localStorage.getItem(STORE)||'{}');
+    if(!o)return;
+    if(o.key)_key=o.key;
+    if(o.adn)Object.assign(adn,o.adn);
+    if(Array.isArray(o.week))week=o.week;
+    if(Array.isArray(o.archive))archive=o.archive;
+    if(Array.isArray(o.validated))validated=o.validated;
+    if(Array.isArray(o.wpData))wpData=o.wpData;
+    if(Array.isArray(o.biblio))biblio=o.biblio;
+    // Fusionne les evts perso avec les evts par défaut CdM
+    if(Array.isArray(o.evts)){
+      var defIds=evts.map(function(e){return e.id;});
+      var custom=o.evts.filter(function(e){return e.id>9999;});
+      evts=evts.concat(custom);
+    }
+    if(_key){F("kdot").className="ok";}
+  }catch(e){}
+}
+
+// Sauvegarde auto à chaque action clé
+function autoSave(){try{saveState();}catch(e){}}
+
+// ===== NAVIGATION =====
+function goTab(id){
+  document.querySelectorAll(".sec").forEach(function(s){s.classList.remove("active");});
+  var s=F("sec-"+id);if(s)s.classList.add("active");
+  document.querySelectorAll(".nb").forEach(function(b){b.classList.remove("on");});
+  var nb=F("nb-"+id);if(nb)nb.classList.add("on");
+  window.scrollTo({top:0,behavior:"smooth"});
+  if(id==="today")renderToday();
+  if(id==="dash")renderDash();
+  if(id==="semaine"){renderWSaved();renderEvFull();if(wpData.length)renderWCards();}
+  if(id==="adn"){fillAdn();renderBiblio();}
+}
+function openK(){F("kinp").value=_key;F("kmodal").classList.add("open");}
+function closeK(){F("kmodal").classList.remove("open");}
+function saveK(){var k=F("kinp").value.trim();_key=k;F("kdot").className=k?"ok":"";closeK();autoSave();toast(k?"Cle API connectee !":"Cle effacee");}
+F("kmodal").onclick=function(e){if(e.target===F("kmodal"))closeK();};
+
+// ===== ADN =====
+function fillAdn(){F("av").value=adn.v;F("at").value=adn.t;F("ai").value=adn.i;F("ar").value=adn.r;F("apz").value=adn.pz;F("ac").value=adn.c;}
+function saveAdn(){adn.v=F("av").value;adn.t=F("at").value;adn.i=F("ai").value;adn.r=F("ar").value;adn.pz=F("apz").value;adn.c=F("ac").value;autoSave();toast("ADN mis a jour");}
+function saveBiblio(){autoSave();}
+function loadBiblio(){
+  // Biblio intégrée directement dans le HTML - pas besoin de fetch
+  // Les items manuels ajoutés par Gilles (id > 9999) sont conservés depuis localStorage
+  var manual=[];
+  try{
+    var saved=JSON.parse(localStorage.getItem('gilles_atelier_v2')||'{}');
+    if(Array.isArray(saved.biblio))manual=saved.biblio.filter(function(b){return b.id>9999;});
+  }catch(e){}
+  // Fusionne biblio intégrée + ajouts manuels sans doublons
+  var ids=biblio.map(function(b){return b.id;});
+  manual.forEach(function(b){if(ids.indexOf(b.id)<0)biblio.push(b);});
+  renderBiblio();
+}
+function selE(el){document.querySelectorAll(".estab").forEach(function(e){e.classList.remove("sel");});el.classList.add("sel");curE=el.getAttribute("data-e");}
+function selEK(k){curE=k;document.querySelectorAll(".estab").forEach(function(e){e.classList.toggle("sel",e.getAttribute("data-e")===k);});}
+
+// ===== PHOTOS =====
+function addPhotos(ev){Array.from(ev.target.files).slice(0,4).forEach(function(f){var r=new FileReader();r.onload=function(){photos.push({dataUrl:r.result,media_type:f.type,b64:r.result.split(",")[1]});renderThumbs();};r.readAsDataURL(f);});ev.target.value="";}
+function renderThumbs(){F("thumbs").innerHTML=photos.map(function(p,i){return '<div class="thumb"><img src="'+p.dataUrl+'"><button class="rm" onclick="rmP('+i+')">x</button></div>';}).join("");}
+function rmP(i){photos.splice(i,1);renderThumbs();}
+
+// ===== GENERER POST =====
+function genPost(){
+  var btn=F("genbtn"),err=F("posterr"),out=F("postres");
+  err.innerHTML="";out.innerHTML="";
+  if(!getKey()){err.innerHTML='<div class="ebox">Connecte ta cle API en haut.</div>';return;}
+  btn.disabled=true;btn.innerHTML='<span class="spin"></span>Generation...';
+  var fmt=F("pf").value,obj=F("po").value,ctx=F("pctx").value.trim(),net=F("pnet").value;
+  var pr=cmb()+" "+brl()+bibCtx()+" ETABLISSEMENT : "+EL[curE]+" -- "+adn[curE]+". RESEAU : "+net+". FORMAT : "+fmt+". OBJECTIF : "+obj+(ctx?". PRECISIONS : "+ctx:"")+(photos.length?". Photos jointes.":"")+jsch();
+  callClaude(pr,photos,function(t){
+    try{lastPost=parseJ(t);lastPost.format=fmt;renderPost(lastPost,fmt);}
+    catch(e){err.innerHTML='<div class="ebox">Erreur parsing. Reessaie.</div>';}
+    btn.disabled=false;btn.innerHTML="Genere mon post";
+  },function(e){err.innerHTML='<div class="ebox">'+esc(String(e))+'</div>';btn.disabled=false;btn.innerHTML="Genere mon post";});
+}
+
+function regen(instr,fmtO){
+  if(!lastPost)return;
+  var out=F("postres"),fmt=fmtO||lastPost.format;
+  out.innerHTML='<div class="card" style="text-align:center;padding:20px"><span class="spin"></span></div>';
+  var pr=cmb()+" "+brl()+" FORMAT : "+fmt+". Hook actuel : "+(lastPost.hook||"")+". Retravaille : "+instr+jsch();
+  callClaude(pr,[],function(t){try{lastPost=parseJ(t);lastPost.format=fmt;renderPost(lastPost,fmt);}catch(e){out.innerHTML='<div class="ebox">Erreur parsing.</div>';}},function(e){out.innerHTML='<div class="ebox">'+esc(String(e))+'</div>';});
+}
+
+function renderPost(r,fmt){
+  var slides=Array.isArray(r.slides)?r.slides:[],tags=Array.isArray(r.hashtags)?r.hashtags:[];
+  var lbl=fmt==="Reel"?"Sequence":fmt==="Story"?"Ecrans":fmt==="Carrousel"?"Slides":"Structure";
+  var h='<div class="card">';
+  if(r.intention)h+='<span class="badge bp" style="margin-bottom:8px;display:inline-flex">'+esc(r.intention)+'</span> ';
+  if(r.type)h+='<span class="badge bg" style="margin-bottom:8px;display:inline-flex">'+esc(r.type)+'</span>';
+  h+=rbk("Accroche",'<div class="hook">'+esc(r.hook||"")+"</div>","hook");
+  h+=rbk(fmt==="Reel"?"Script":"Legende",'<div class="rbtxt">'+esc(r.caption||"")+"</div>","caption");
+  if(slides.length){h+='<div class="rb"><div class="rbhd">'+esc(lbl)+' <button class="cpbtn" onclick="cpf(\'slides\')">COPIER</button></div>';slides.forEach(function(s,i){h+='<div class="spill"><b style="color:var(--gold2)">'+(i+1)+".</b> "+esc(s)+"</div>";});h+="</div>";}
+  if(r.raison_partage)h+='<div class="rb"><div class="sbox2">'+esc(r.raison_partage)+"</div></div>";
+  if(tags.length){h+='<div class="rb"><div class="rbhd">Hashtags <button class="cpbtn" onclick="cpf(\'hashtags\')">COPIER</button></div><div class="tags">';tags.forEach(function(t){h+='<span class="tag">'+esc(t)+"</span>";});h+="</div></div>";}
+  if(r.cta)h+=rbk("CTA",'<div class="rbtxt">'+esc(r.cta)+"</div>","cta");
+  if(r.bestTime)h+='<div class="rb"><div class="rbhd">Quand publier</div><div class="rbtxt" style="font-size:12px">'+esc(r.bestTime)+"</div></div>";
+  if(r.conseil)h+='<div class="rb"><div class="cbox">'+esc(r.conseil)+"</div></div>";
+  // Variantes d accroches
+  if(r.variantes&&Array.isArray(r.variantes)&&r.variantes.length){
+    h+='<div class="rb"><div class="rbhd">Autres accroches <button class="cpbtn" onclick="cpAllVariantes()">TOUT COPIER</button></div>';
+    r.variantes.forEach(function(v,i){
+      h+='<div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--border)">';
+      h+='<div style="font-size:12px;flex:1;color:var(--text2);font-style:italic">'+esc(v)+'</div>';
+      h+='<button class="cpbtn" onclick="cpVariante('+i+')">COPIER</button></div>';
+    });
+    h+='</div>';
+  }
+  h+='<div class="vbts"><button class="vbt" onclick="regen(\'plus court\')">Plus court</button><button class="vbt" onclick="regen(\'plus drole et bon enfant\')">Plus drole</button><button class="vbt" onclick="regen(\'plus poetique style terroir\')">Poetique</button><button class="vbt" onclick="regen(\'style Gilles bon vivant chaleureux\')">Style Gilles</button><button class="vbt" onclick="regen(\'autre version complete differente\')">Autre</button></div>';
+  h+='<div class="vbts"><button class="vbt" onclick="regen(\'adapte en Reel avec sequence video\',\'Reel\')">En Reel</button><button class="vbt" onclick="regen(\'adapte en Story\',\'Story\')">En Story</button><button class="vbt" onclick="regen(\'adapte en Carrousel\',\'Carrousel\')">En Carrousel</button></div>';
