@@ -1,0 +1,285 @@
+{
+  "version": "2026-06-15c",
+  "items": [
+    {
+      "id": 1,
+      "title": "Ouverture 18h — À emporter (panneau noir/or)",
+      "estab": "pizza",
+      "fmt": "Affiche",
+      "desc": "Panneau élégant noir et or, style brasserie, avec logo pizza, horaires et numéro de téléphone. Ton premium.",
+      "file": "medias/66AE58B8-A0E4-48BC-A8CD-10AF1ACF2967.jpeg"
+    },
+    {
+      "id": 2,
+      "title": "Ouverture 18h — Pour vous régaler (pizza en boîte)",
+      "estab": "pizza",
+      "fmt": "Affiche",
+      "desc": "Affiche italienne festive rouge/vert/blanc avec pizza généreuse en boîte, drapeau IT, numéro de téléphone.",
+      "file": "medias/C94ECA00-CA04-4F73-B62D-6C296A8A58C4.png"
+    },
+    {
+      "id": 3,
+      "title": "La Pizzeria ouvre dans 1 heure",
+      "estab": "pizza",
+      "fmt": "Affiche",
+      "desc": "Affiche compte à rebours — pizza en boîte avec badge rouge 'Dans 1 heure pour vous régaler'. Urgence et appétit.",
+      "file": "medias/E04FF206-7562-4D98-849B-28ACFD24DCE3.png"
+    },
+    {
+      "id": 4,
+      "title": "Coulisses — la caisse et Gilles en action",
+      "estab": "pizza",
+      "fmt": "Photo",
+      "desc": "Photo authentique du comptoir de la pizzeria : caisse enregistreuse, plan de travail, rouleau à pâtisserie, Gilles en arrière-plan avec son casque.",
+      "file": "medias/IMG_6005.jpeg"
+    },
+    {
+      "id": 5,
+      "title": "Pizza fromage, chorizo et olives noires",
+      "estab": "pizza",
+      "fmt": "Photo",
+      "desc": "Pizza en boîte vue du dessus, pâte dorée généreuse, fromage fondu, tranches de chorizo et olives noires. Photo brute et appétissante.",
+      "file": "medias/att.Vj0DyUuIrBjtd9oynozwLuawsPdkPJo6v8ztstLccSs"
+    },
+    {
+      "id": 6,
+      "title": "Pizza végétarienne généreuse",
+      "estab": "pizza",
+      "fmt": "Photo",
+      "desc": "Pizza en boîte débordante de légumes colorés : poivrons rouges et verts, champignons, brocoli, asperges, aubergines. Très photogénique.",
+      "file": "medias/att.mwINfjzk7WEvPmqon-M4vgwNR9rZKFq0saELDTUiAxI"
+    },
+    {
+      "id": 7,
+      "title": "Décor — miroir doré et lustre baroque",
+      "estab": "pizza",
+      "fmt": "Photo",
+      "desc": "Photo d'ambiance de la pizzeria : grand miroir doré baroque, lustre en cristal, plantes vertes. Atmosphère chaleureuse et élégante.",
+      "file": "medias/IMG_5611.jpeg"
+    },
+    {
+      "id": 8,
+      "title": "Logo Pizzeria de la P'tite Cave",
+      "estab": "pizza",
+      "fmt": "Affiche",
+      "desc": "Visuel logo officiel sur fond papier froissé noir — pizza dans cadre architectural doré, mention 'Authentique, Gourmande, Italienne'.",
+      "file": "medias/Une_dose_d_humour_-_13.png"
+    },
+    {
+      "id": 9,
+      "title": "Sélection vins — Viognier & Corbières avec étiquettes",
+      "estab": "cave",
+      "fmt": "Photo",
+      "desc": "Comptoir cave : Domaine de Causse Viognier 8,50€ et Sainte Lucie d'Aussou Corbières 11,50€. Étiquettes manuscrites colorées, saucissons en fond.",
+      "file": "medias/IMG_5706.jpeg"
+    },
+    {
+      "id": 10,
+      "title": "Viognier & Corbières — portrait bouteilles",
+      "estab": "cave",
+      "fmt": "Photo",
+      "desc": "Même sélection, cadrage serré. Domaine de Causse Origines Viognier et Sainte Lucie d'Aussou Patz e Amor. Fond cave avec charcuteries suspendues.",
+      "file": "medias/IMG_5708.jpeg"
+    },
+    {
+      "id": 11,
+      "title": "Gros plan — Sainte Lucie d'Aussou Patz e Amor",
+      "estab": "cave",
+      "fmt": "Photo",
+      "desc": "Portrait serré Corbières Sainte Lucie d'Aussou avec étiquette manuscrite verte 'Fruité, rond, facile à boire 11,50€'. Fond cave avec saucissons.",
+      "file": "medias/IMG_5709.jpeg"
+    },
+    {
+      "id": 12,
+      "title": "Château Lastours — mise en scène radio vintage",
+      "estab": "cave",
+      "fmt": "Photo",
+      "desc": "Radio vintage dorée sur caisse bois avec 3 bouteilles Château Lastours (Bergerie 2023, Grand Vin, Grande Réserve 2019). Ambiance collector unique.",
+      "file": "medias/IMG_5744.jpeg"
+    },
+    {
+      "id": 13,
+      "title": "Gin Castan Organic Spirit",
+      "estab": "cave",
+      "fmt": "Photo",
+      "desc": "Deux boîtes Gin Castan Organic Spirit reflétées dans le comptoir vitré. Design botanique élégant bleu et blanc. Produit original et local.",
+      "file": "medias/IMG_5746.jpeg"
+    },
+    {
+      "id": 14,
+      "title": "Sélection rouge — étagère caisse bois",
+      "estab": "cave",
+      "fmt": "Photo",
+      "desc": "Étagère bois : Line Laetitia Piccinini La Livinière, Sainte Lucie d'Aussou Corbières 2022, Insula La Clape 2023. Cadrage épuré et élégant.",
+      "file": "medias/IMG_5749.jpeg"
+    },
+    {
+      "id": 17,
+      "title": "Punch au Rhum BreiZ'ile — collection artisanale",
+      "estab": "cave",
+      "fmt": "Photo",
+      "desc": "4 bouteilles Punch au Rhum BreiZ'ile Collection 32° alignées : Amande, Coco Vanille (Médaille de Bronze), Caramel Vanille, Rhum Vieux. Fabrication artisanale depuis 2002. Idéal été.",
+      "file": "medias/IMG_5753.jpeg"
+    },
+    {
+      "id": 18,
+      "title": "Révélation Fitou 2023 — trio bouteilles",
+      "estab": "cave",
+      "fmt": "Photo",
+      "desc": "3 bouteilles Révélation Fitou 2023 en rang sur étagère cave. Étiquette sobre et élégante, mise en bouteille à la propriété. Prix visible 8€. Suggestion accord idéale.",
+      "file": "medias/IMG_5751.jpeg"
+    },
+    {
+      "id": 19,
+      "title": "Sélection rouge — étagère caisse bois (v2)",
+      "estab": "cave",
+      "fmt": "Photo",
+      "desc": "Étagère caisse bois : Line Laetitia Piccinini, Sainte Lucie d'Aussou Patz e Amor Corbières 2022, Insula La Clape 2023. Lumière naturelle, rendu premium.",
+      "file": "medias/IMG_5750.jpeg"
+    },
+    {
+      "id": 20,
+      "title": "Ego in Terra — Celliers d'Orfée Médaille d'Or Paris 2023",
+      "estab": "cave",
+      "fmt": "Photo",
+      "desc": "2 bouteilles Ego in Terra par Orfée, Médaille d'Or Paris 2023. Étiquette artistique saisissante : œil humain, éclaboussures d'or, paysage Corbières. Produit coup de cœur.",
+      "file": "medias/IMG_5747.jpeg"
+    },
+    {
+      "id": 21,
+      "title": "Gilles — promo Cantal Entredeux AOP (thumbs up)",
+      "estab": "cave",
+      "fmt": "Photo",
+      "desc": "Gilles souriant, pouce levé, devant 2 meules de Cantal Entredeux AOP empilées + pancarte orange 'Promotion 15,90€/kg'. Rayonnages vins en fond. Photo humaine et engageante.",
+      "file": "medias/IMG_5432.jpeg"
+    },
+    {
+      "id": 22,
+      "title": "Gilles — 2 meules de Cantal ouvertes, sourire",
+      "estab": "cave",
+      "fmt": "Photo",
+      "desc": "Gilles souriant tenant 2 grandes meules de Cantal éclatées à bout de bras, signe 'La P'tite Cave' visible au mur. Photo forte, conviviale, idéale pour engagement.",
+      "file": "medias/IMG_5423.jpeg"
+    },
+    {
+      "id": 23,
+      "title": "Gilles — Cantal face caméra, regard direct",
+      "estab": "cave",
+      "fmt": "Photo",
+      "desc": "Gilles regard caméra intense, tient 2 meules de Cantal ouvertes devant lui. Vitrine fromagerie à gauche, étagères vins à droite. Photo portrait fort.",
+      "file": "medias/IMG_5418.jpeg"
+    },
+    {
+      "id": 24,
+      "title": "Cantal Entredeux AOP — vue boutique complète",
+      "estab": "cave",
+      "fmt": "Photo",
+      "desc": "2 meules de Cantal empilées sur tabouret en bois au centre de la cave. Rayonnages vins, radio vintage, TV ancienne visible en fond. Ambiance boutique authentique.",
+      "file": "medias/IMG_5414.jpeg"
+    },
+    {
+      "id": 25,
+      "title": "Gilles — découpe d'une meule de Cantal",
+      "estab": "cave",
+      "fmt": "Photo",
+      "desc": "Gilles en action, concentré, tenant une grande meule de Cantal qu'il vient de couper en deux. Coulisses authentiques, idéal pour contenu 'métier'.",
+      "file": "medias/IMG_5419.jpeg"
+    },
+    {
+      "id": 26,
+      "title": "Gilles — Cantal promo, TV vintage en fond",
+      "estab": "cave",
+      "fmt": "Photo",
+      "desc": "Gilles avec Cantal AOP et pancarte promo orange, TV vintage allumée visible sur l'étagère du fond. Rayonnages vins bien fournis. Ambiance chaleureuse.",
+      "file": "medias/IMG_5428.jpeg"
+    },
+    {
+      "id": 27,
+      "title": "Poulet rôti — rôtissoire pleine le week-end",
+      "estab": "cave",
+      "fmt": "Photo",
+      "desc": "Rôtissoire pleine de poulets dorés sur 5 rangées + pommes de terre confites en bas. Disponible UNIQUEMENT le samedi et dimanche matin à la cave/traiteur. Photo très appétissante.",
+      "file": "medias/att.-CxF12y8e2fwlRvk0pdsbFUQ-mWUXrByc7UHiFZvT3A"
+    },
+    {
+      "id": 30,
+      "title": "Réel ou storie début service",
+      "estab": "pizza",
+      "fmt": "Reel",
+      "desc": "BROUILLON INSTAGRAM 'Réel ou storie début service' — vidéo ouverture du service pizzeria. Durée 6s.",
+      "draft": "Réel ou storie début service"
+    },
+    {
+      "id": 31,
+      "title": "Réel ou storie commande",
+      "estab": "pizza",
+      "fmt": "Reel",
+      "desc": "BROUILLON INSTAGRAM 'Réel ou storie commande' — vidéo moment de la prise de commande. Durée 10s.",
+      "draft": "Réel ou storie commande"
+    },
+    {
+      "id": 32,
+      "title": "Storie ou réel prépa",
+      "estab": "pizza",
+      "fmt": "Reel",
+      "desc": "BROUILLON INSTAGRAM 'Storie ou réel prépa' — vidéo préparation de la pizza. Durée 3s.",
+      "draft": "Storie ou réel prépa"
+    },
+    {
+      "id": 33,
+      "title": "Storie ou réel — client",
+      "estab": "pizza",
+      "fmt": "Reel",
+      "desc": "BROUILLON INSTAGRAM 'Storie ou réel - client' — vidéo ambiance client. Durée 4s.",
+      "draft": "Storie ou réel - client"
+    },
+    {
+      "id": 34,
+      "title": "Storie ou réel pizza",
+      "estab": "pizza",
+      "fmt": "Reel",
+      "desc": "BROUILLON INSTAGRAM 'Storie ou réel pizza' — gros plan pizza. Durée 4s.",
+      "draft": "Storie ou réel pizza"
+    },
+    {
+      "id": 35,
+      "title": "Storie ou réel Cuisine pizza",
+      "estab": "pizza",
+      "fmt": "Reel",
+      "desc": "BROUILLON INSTAGRAM 'Storie ou réelCuisine pizza' — vidéo cuisine en action. Durée 9s.",
+      "draft": "Storie ou réelCuisine pizza"
+    },
+    {
+      "id": 36,
+      "title": "Storie ou réel — savoir-faire",
+      "estab": "pizza",
+      "fmt": "Reel",
+      "desc": "BROUILLON INSTAGRAM 'Storie ou réel - savoir fair' — vidéo geste artisanal, étalement pâte. Durée 2s.",
+      "draft": "Storie ou réel - savoir fair"
+    },
+    {
+      "id": 37,
+      "title": "Réel ou storie poule humour",
+      "estab": "pizza",
+      "fmt": "Reel",
+      "desc": "BROUILLON INSTAGRAM 'Réel ou storie poule humour' — vidéo humoristique avec poule. Durée 10s. Ton décalé.",
+      "draft": "Réel ou storie poule humour"
+    },
+    {
+      "id": 38,
+      "title": "Réel ou storie humour",
+      "estab": "pizza",
+      "fmt": "Reel",
+      "desc": "BROUILLON INSTAGRAM 'Réel ou storie humour' — vidéo humour Gilles face caméra. Durée 11s.",
+      "draft": "Réel ou storie humour"
+    },
+    {
+      "id": 39,
+      "title": "Storie ouverture",
+      "estab": "pizza",
+      "fmt": "Story",
+      "desc": "BROUILLON INSTAGRAM 'Storie ouverture' — vidéo ouverture pizzeria le soir. Durée 12s.",
+      "draft": "Storie ouverture"
+    }
+  ]
+}
