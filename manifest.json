@@ -1,11 +1,11 @@
 {
-  "name": "Atelier Gilles",
-  "short_name": "Gilles",
-  "description": "Assistant CM de Gilles Pillault",
+  "name": "Chrono Insta Pro",
+  "short_name": "Chrono Insta",
+  "description": "Studio IA de contenus Instagram — scripts, hooks, carrousels et calendrier éditorial",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#0f1117",
-  "theme_color": "#C8956E",
+  "background_color": "#08060e",
+  "theme_color": "#08060e",
   "orientation": "portrait",
   "icons": [
     { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
